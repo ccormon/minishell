@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/03/22 18:38:31 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:38:18 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 
 /* DEFINES */
 
+# define GENERAL_ERR 1
+# define EXEC_CMD_KO 126
 # define INVALID_CMD 127
 # define TMP_FILE "/tmp/tmp"
 
@@ -43,10 +45,14 @@ typedef struct s_cmd
 	char	*cmd_name; // echo
 	char	*cmd_path; // init to NULL
 	char	**argument; // split de whole_cmd
-	int		input_redir; // < = 1; << = 2; else = 0
-	char	*input_file;
+	int		status;
+	int		pid_child;
+	int		*input_redir; // < = 1; << = 2; else = 0
+	char	**input_file; // init to NULL
+	int		input_fd;
 	int		output_redir; // > = 1; >> = 2; else = 0
-	char	*output_file;
+	char	**output_file; // init to NULL
+	int		output_fd;
 	bool	builtin;
 	t_cmd	*next;
 }	t_cmd;
@@ -59,28 +65,16 @@ typedef struct s_arg
 	char	**arg_tab;
 	char	**paths;
 	t_cmd	*cmd_list;
+	int		pipe_fd[2][2];
 }	t_arg;
-
-// typedef struct s_cmd
-// {
-// 	char	*path;
-// 	char	**args;
-// }	t_cmd;
-
-// typedef struct s_pipex
-// {
-// 	bool	here_doc;
-// 	int		in_fd;
-// 	int		out_fd;
-// 	t_cmd	*cmd;
-// 	size_t	nb_cmd;
-// 	char	**paths;
-// 	int		pipe_fd[2][2];
-// 	int		*pid_child;
-// }	t_pipex;
 
 /* FONCTIONS */
 
-
+// Executing
+void	executing(t_arg *param, char **envp);
+//  utils
+size_t	ft_strlen(char *s);
+char	*ft_strjoin_path(char *path, char *cmd);
+char	*ft_which(char **paths, char *cmd);
 
 #endif

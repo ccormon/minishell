@@ -13,6 +13,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/* LIBFT */
+
+# include "libft/libft.h"
+
 /* INCLUDES */
 
 # include <stdio.h>
@@ -47,10 +51,10 @@ typedef struct s_cmd
 	char	**argument; // split de whole_cmd
 	int		status;
 	int		pid_child;
-	int		*input_redir; // < = 1; << = 2; else = 0
+	int		*input_redir; // init to NULL; > = 1; << = 2;
 	char	**input_file; // init to NULL
 	int		input_fd;
-	int		output_redir; // > = 1; >> = 2; else = 0
+	int		*output_redir; // init to NULL; > = 1; >> = 2;
 	char	**output_file; // init to NULL
 	int		output_fd;
 	bool	builtin;

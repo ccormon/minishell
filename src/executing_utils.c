@@ -12,18 +12,6 @@
 
 #include "../includes/minishell.h"
 
-size_t	ft_strlen(char *s)
-{
-	size_t	i;
-
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
 char	*ft_strjoin_path(char *path, char *cmd)
 {
 	char	*cmd_path;

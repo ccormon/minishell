@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/03/25 17:38:18 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/03/28 17:33:53 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_cmd
 	char	*whole_cmd; // echo -n hi there
 	char	*cmd_name; // echo
 	char	*cmd_path; // init to NULL
-	char	**argument; // split de whole_cmd
+	char	**arguments; // split de whole_cmd
 	int		status;
 	int		pid_child;
 	int		*input_redir; // init to NULL; > = 1; << = 2;
@@ -76,8 +76,16 @@ typedef struct s_arg
 
 // Executing
 void	executing(t_arg *param, char **envp);
+//  handle_redirections
+int		nb_redir(t_cmd *cmd);
+void	read_input(int tmp_fd, char *lim_lr);
+int		open_hd(t_cmd *cmd, int i);
+int		handle_redir_input(t_cmd *cmd);
+int		handle_redir_output(t_cmd *cmd);
+//  one_command
+int		exec_one_cmd(t_arg *arg, char **envp);
+int		handle_one_cmd(t_arg *arg, char **envp);
 //  utils
-size_t	ft_strlen(char *s);
 char	*ft_strjoin_path(char *path, char *cmd);
 char	*ft_which(char **paths, char *cmd);
 

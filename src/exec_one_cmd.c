@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/03/28 17:26:31 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/03 10:28:02 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int	exec_one_cmd(t_arg *arg, char **envp)
 {
+	// int	builtin_code;
+
+	// builtin_code = isbuiltins(arg);
+	// if (builtin_code != 0)
+	// 	return (handle_builtins(arg, envp, builtin_code));
 	arg->cmd_list->pid_child = fork();
 	if (arg->cmd_list->pid_child == 0)
 	{
@@ -39,7 +44,8 @@ int	exec_one_cmd(t_arg *arg, char **envp)
 
 int	handle_one_cmd(t_arg *arg, char **envp)
 {
-	arg->cmd_list->cmd_path = ft_which(arg->cmd_list->cmd_name, arg->paths);
+	arg->cmd_list->cmd_path = ft_which(arg->paths,
+		arg->cmd_list->arguments[0]);
 	if (!arg->cmd_list->cmd_path)
 		return (INVALID_CMD);
 	if (arg->cmd_list->input_redir)
@@ -48,11 +54,15 @@ int	handle_one_cmd(t_arg *arg, char **envp)
 		if (arg->cmd_list->input_fd == -1)
 			return (GENERAL_ERR);
 	}
+	else
+		arg->cmd_list->input_fd = STDIN_FILENO;
 	if (arg->cmd_list->output_redir)
 	{
 		arg->cmd_list->output_fd = handle_redir_output(arg->cmd_list);
 		if (arg->cmd_list->output_fd == -1)
 			return (GENERAL_ERR);
 	}
+	else
+		arg->cmd_list->output_fd = STDOUT_FILENO;
 	return (exec_one_cmd(arg, envp));
 }

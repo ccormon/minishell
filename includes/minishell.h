@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/03/28 17:33:53 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/03 10:28:01 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@
 
 typedef struct s_cmd
 {
-	char	*whole_cmd; // echo -n hi there
-	char	*cmd_name; // echo
 	char	*cmd_path; // init to NULL
-	char	**arguments; // split de whole_cmd
+	char	**arguments;
 	int		status;
 	int		pid_child;
 	int		*input_redir; // init to NULL; > = 1; << = 2;
@@ -57,13 +55,12 @@ typedef struct s_cmd
 	int		*output_redir; // init to NULL; > = 1; >> = 2;
 	char	**output_file; // init to NULL
 	int		output_fd;
-	bool	builtin;
 	t_cmd	*next;
 }	t_cmd;
 
 typedef struct s_arg
 {
-	int		exit_code;
+	int		exit_code; // init to 0
 	char	*prompt;
 	char	*whole_line;
 	char	**arg_tab;
@@ -82,6 +79,9 @@ void	read_input(int tmp_fd, char *lim_lr);
 int		open_hd(t_cmd *cmd, int i);
 int		handle_redir_input(t_cmd *cmd);
 int		handle_redir_output(t_cmd *cmd);
+//  handle_builtins
+int		isbuiltins(t_arg *arg);
+int		handle_builtins(t_arg *arg, char **envp, int builtin_code);
 //  one_command
 int		exec_one_cmd(t_arg *arg, char **envp);
 int		handle_one_cmd(t_arg *arg, char **envp);

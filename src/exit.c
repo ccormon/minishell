@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:26:54 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/03 14:24:27 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 11:53:29 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	free_cmd_lst(t_cmd *lst)
 	while (lst != NULL)
 	{
 		new = lst->next;
+		free(lst->cmd_path);
 		free_tab(lst->arguments);
 		free(lst->input_redir);
 		free(lst->output_redir);

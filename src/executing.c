@@ -6,11 +6,26 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:17:50 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 11:34:59 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 13:30:37 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	nb_cmd(t_arg *arg)
+{
+	int	i;
+
+	if (!arg->cmd_list)
+		return (0);
+	i = 0;
+	while (arg->cmd_list)
+	{
+		arg->cmd_list = arg->cmd_list->next;
+		i++;
+	}
+	return (i);
+}
 
 int	ft_pipe(t_arg *arg, int cmd_no)
 {
@@ -102,12 +117,13 @@ int	handle_multiple_cmd(t_arg *param)
 
 void	executing(t_arg *arg)
 {
-	if (!arg->cmd_list->next)
+	arg->nb_cmd = nb_cmd(arg);
+	if (arg->nb_cmd == 1)
 	{
 		// execute one command
 		arg->exit_code = handle_one_cmd(arg);
 	}
-	else
+	else if (arg->nb_cmd > 1)
 	{
 		// execute multiple command
 		arg->exit_code = handle_multiple_cmd(arg);

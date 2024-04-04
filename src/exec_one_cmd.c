@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 11:28:14 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 13:07:54 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	exec_one_cmd(t_arg *arg)
 		}
 		if (arg->cmd_list->output_redir[0])
 		{
-			dup2(arg->cmd_list->input_fd, STDOUT_FILENO);
+			dup2(arg->cmd_list->output_fd, STDOUT_FILENO);
 			close(arg->cmd_list->output_fd);
 		}
 		execve(arg->cmd_list->cmd_path, arg->cmd_list->arguments, arg->envp);

@@ -1,0 +1,8 @@
+includes
+lib
+Makefile
+minishell
+outfile
+readline.supp
+README.md
+src

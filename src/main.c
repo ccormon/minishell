@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:52:15 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/04 11:38:21 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 14:49:25 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,14 @@ static int	fetch_line(char **envp)
 		arg.whole_line = readline(arg.prompt);
 		add_history(arg.whole_line);
 		if (!arg.whole_line)
-		{
-			printf("test\n");
-			write(1, "exit\n", 5);
 			break ;
-		}
-		// parse_line(&arg);
-		// printf("exit code = %d\n", arg.exit_code);
 		if (parse_line(&arg))
 			executing(&arg);
 		free(arg.whole_line);
 		free_lst(arg.lexing);
 		free_cmd_lst(arg.cmd_list);
 	}
-	ft_exit(&arg);
+	builtin_exit(&arg, arg.exit_code);
 	return (arg.exit_code);
 }
 

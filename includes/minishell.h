@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 13:31:32 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 14:28:21 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include <signal.h>
 # include <string.h>
 # include <stdbool.h>
+# include <limits.h>
 
 /* DEFINE */
 
@@ -110,6 +111,7 @@ int			count_token(t_tmp_list *lexing, t_token token);
 bool		ft_isspace(char c);
 bool		ft_isseparator(char c);
 bool		ft_ismetachar(char c);
+bool		ft_islong(char *s);
 
 //CHECK FOR INVALID CHAR IN LINE (CHECK_ERRORS)
 bool		check_pipe_errors(char *str);
@@ -129,12 +131,6 @@ int			replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i);
 //CREATE COMMAND LINKED LIST (INIT_LIST)
 void		init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp);
 
-// TMP FREE AND EXIT
-void		free_tab(char **tab);
-void		free_lst(t_tmp_list *lst);
-void		free_cmd_lst(t_cmd *lst);
-void		ft_exit(t_arg *arg);
-
 // Executing
 void		executing(t_arg *param);
 //  handle_redirections
@@ -152,5 +148,11 @@ int			handle_one_cmd(t_arg *arg);
 //  utils
 char		*ft_strjoin_path(char *path, char *cmd);
 char		*ft_which(char **paths, char *cmd);
+
+// BUILTINS
+void		free_tab(char **tab);
+void		free_lst(t_tmp_list *lst);
+void		free_cmd_lst(t_cmd *lst);
+void		builtin_exit(t_arg *arg, bool builtin);
 
 #endif

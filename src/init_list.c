@@ -17,7 +17,7 @@
  * ---------------------
  * Creates a new command node in the command list.
  *
- * arg: Pointer to a structure containing command arguments and settings.
+ * arg: Pointer to a structure containing command argv and settings.
  *
  * returns: Pointer to the newly created command node.
  */
@@ -31,7 +31,7 @@ static t_cmd	*cmd_lstnew(t_arg *arg)
 		return (0);
 	new->cmd_path = NULL;
 	count = count_token(arg->lexing, TOKEN_WORD) + 1;
-	new->arguments = ft_calloc(count, sizeof(char *));
+	new->argv = ft_calloc(count, sizeof(char *));
 	count = count_token(arg->lexing, TOKEN_INFILE)
 		+ count_token(arg->lexing, TOKEN_HEREDOC) + 1;
 	new->input_redir = ft_calloc(count, sizeof(int));
@@ -106,9 +106,9 @@ static void	fill_tab(t_tmp_list *lexing, t_cmd *cmd, t_token token)
  */
 static int	fill_word(t_cmd **cmd, t_tmp_list *tmp, int i)
 {
-	while ((*cmd)->arguments[i])
+	while ((*cmd)->argv[i])
 		i++;
-	(*cmd)->arguments[i] = mod_strdup(tmp->content,
+	(*cmd)->argv[i] = mod_strdup(tmp->content,
 			ft_strlen(tmp->content));
 	return (i);
 }
@@ -118,7 +118,7 @@ static int	fill_word(t_cmd **cmd, t_tmp_list *tmp, int i)
  * ------------------------
  * Initializes the command list based on the lexing list.
  *
- * arg: Pointer to a structure containing command arguments and settings.
+ * arg: Pointer to a structure containing command argv and settings.
  * cmd: Pointer to a pointer to the head of the command list.
  * tmp: Pointer to the head of the lexing list.
  */
@@ -141,8 +141,8 @@ void	init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp)
 		else if (tmp->token == TOKEN_PIPE)
 		{
 			i = 0;
-			if (!(*cmd)->arguments[0])
-				(*cmd)->arguments[0] = mod_strdup("cat", 3);
+			if (!(*cmd)->argv[0])
+				(*cmd)->argv[0] = mod_strdup("cat", 3);
 			cmd_lstadd_back(cmd, cmd_lstnew(arg));
 			cmd = &(*cmd)->next;
 		}

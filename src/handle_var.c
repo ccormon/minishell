@@ -17,7 +17,7 @@
  * --------------------------
  * Retrieves the content of an environment variable.
  *
- * arg: Pointer to a structure containing command arguments and settings.
+ * arg: Pointer to a structure containing command argv and settings.
  * str: Pointer to the environment variable name string.
  *
  * returns: Pointer to the content of the environment variable,
@@ -121,7 +121,7 @@ static int	create_new_node(t_tmp_list **list)
  * If the value contains spaces or tabs and the node is not in quotes, it
  * creates new nodes for each part of the value.
  *
- * arg:   Pointer to a structure containing command arguments and settings.
+ * arg:   Pointer to a structure containing command argv and settings.
  * list:  Pointer to a pointer to the current node in the linked list.
  * state: Current parsing state indicating if the node is in quotes.
  * i:     Index indicating the start position of the environment variable.

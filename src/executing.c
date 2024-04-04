@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:17:50 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 14:49:46 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 18:03:49 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	exec_cmd(t_arg *arg, int cmd_no)
 		dup2(arg->pipe_fd[cmd_no % 2][1], STDOUT_FILENO);
 		close(arg->pipe_fd[cmd_no % 2][0]);
 		close(arg->pipe_fd[cmd_no % 2][1]);
-		execve(arg->cmd_list->cmd_path, arg->cmd_list->arguments, arg->envp);
+		execve(arg->cmd_list->cmd_path, arg->cmd_list->argv, arg->envp);
 	}
 }
 
@@ -90,7 +90,7 @@ int	wait_childs(t_cmd *cmd)
 			exit_code = WEXITSTATUS(cmd->status);
 		cmd = cmd->next;
 	}
-	return(exit_code);
+	return (exit_code);
 }
 
 int	handle_multiple_cmd(t_arg *param)
@@ -107,7 +107,7 @@ int	handle_multiple_cmd(t_arg *param)
 		if (exit_code != 0)
 			return (exit_code);
 		arg->cmd_list->cmd_path = ft_which(arg->paths,
-			arg->cmd_list->arguments[0]);
+			arg->cmd_list->argv[0]);
 		exec_cmd(arg, cmd_no);
 		arg->cmd_list = arg->cmd_list->next;
 	}

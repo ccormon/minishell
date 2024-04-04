@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:52:15 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/04 15:04:47 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:01:51 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	handle_signal(int sig)
  * Initializes the paths for executable files by extracting the PATH environment
  * variable.
  *
- * arg:   Pointer to a structure containing command arguments and settings.
+ * arg:   Pointer to a structure containing command argv and settings.
  * envp:  Array of strings containing the environment variables.
  */
 static void	init_paths(t_arg *arg, char **envp)
@@ -105,7 +105,7 @@ static int	fetch_line(char **envp)
 		free_lst(arg.lexing);
 		free_cmd_lst(arg.cmd_list);
 	}
-	builtin_exit(&arg, arg.exit_code);
+	builtin_exit(&arg, false);
 	return (arg.exit_code);
 }
 
@@ -116,8 +116,8 @@ static int	fetch_line(char **envp)
  * sets up signal handling for SIGINT and SIGQUIT, and then enters
  * the main loop to fetch and process user input.
  *
- * argc: Number of command-line arguments passed to the program.
- * argv: Array of strings containing the command-line arguments.
+ * argc: Number of command-line argv passed to the program.
+ * argv: Array of strings containing the command-line argv.
  * envp: Array of strings containing the environment variables.
  *
  * returns: The exit status of the program.

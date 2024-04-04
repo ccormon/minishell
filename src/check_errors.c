@@ -17,7 +17,7 @@
  * ----------------------
  * Prints an error message to the standard error stream and sets the exit code.
  *
- * arg: Pointer to a structure containing command arguments and settings.
+ * arg: Pointer to a structure containing command argv and settings.
  * str: Pointer to the error message string to be printed.
  *
  * returns: false
@@ -108,7 +108,7 @@ void	in_quotes(char c, int *state)
  * -----------------------
  * Checks for syntax errors in the provided command string.
  *
- * arg: Pointer to a structure containing command arguments and settings.
+ * arg: Pointer to a structure containing command argv and settings.
  * str: Pointer to the command string to be checked for errors.
  *
  * returns: true if no syntax errors are found, false otherwise.

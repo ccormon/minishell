@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 14:28:21 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:51:23 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_tmp_list	t_tmp_list;
 typedef struct s_cmd
 {
 	char	*cmd_path; // init to NULL
-	char	**arguments;
+	char	**argv;
 	int		status;
 	int		pid_child;
 	int		*input_redir; // init to NULL; > = 1; << = 2;

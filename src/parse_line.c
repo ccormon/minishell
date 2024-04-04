@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:07:26 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/03 13:09:59 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 18:05:14 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	next_element(char *str)
  * ------------------------
  * Removes quotes from the content of each node in the linked list.
  *
- * arg:  Pointer to a structure containing command arguments and settings.
+ * arg:  Pointer to a structure containing command argv and settings.
  * list: Pointer to the head of the linked list.
  */
 static void	remove_quotes(t_arg *arg, t_tmp_list *list)
@@ -107,7 +107,7 @@ static void	remove_quotes(t_arg *arg, t_tmp_list *list)
  * Tokenizes the command string into lexical units (tokens) and creates a linked
  * list of tokens.
  *
- * arg: Pointer to a structure containing command arguments and settings.
+ * arg: Pointer to a structure containing command argv and settings.
  * str: Pointer to the command string to be tokenized.
  */
 static void	lexing(t_arg *arg, char *str)
@@ -132,7 +132,7 @@ static void	lexing(t_arg *arg, char *str)
  * Parses the whole command line by performing error checking, lexical analysis,
  * and initialization of the command list.
  *
- * arg: Pointer to a structure containing command arguments and settings.
+ * arg: Pointer to a structure containing command argv and settings.
  *
  * returns: true if the line is parsed successfully, false otherwise.
  */

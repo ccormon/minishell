@@ -15,19 +15,19 @@
 // Avec des token ce serait plus simple !
 int	isbuiltins(t_arg *arg)
 {
-	if (ft_strcmp(arg->cmd_list->arguments[0], "echo"))
+	if (ft_strcmp(arg->cmd_list->argv[0], "echo"))
 		return (1);
-	else if (ft_strcmp(arg->cmd_list->arguments[0], "cd"))
+	else if (ft_strcmp(arg->cmd_list->argv[0], "cd"))
 		return (2);
-	else if (ft_strcmp(arg->cmd_list->arguments[0], "pwd"))
+	else if (ft_strcmp(arg->cmd_list->argv[0], "pwd"))
 		return (3);
-	else if (ft_strcmp(arg->cmd_list->arguments[0], "export"))
+	else if (ft_strcmp(arg->cmd_list->argv[0], "export"))
 		return (4);
-	else if (ft_strcmp(arg->cmd_list->arguments[0], "unset"))
+	else if (ft_strcmp(arg->cmd_list->argv[0], "unset"))
 		return (5);
-	else if (ft_strcmp(arg->cmd_list->arguments[0], "env"))
+	else if (ft_strcmp(arg->cmd_list->argv[0], "env"))
 		return (6);
-	else if (ft_strcmp(arg->cmd_list->arguments[0], "exit"))
+	else if (ft_strcmp(arg->cmd_list->argv[0], "exit"))
 		return (7);
 	else
 		return (0);

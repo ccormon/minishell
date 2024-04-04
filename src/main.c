@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:52:15 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/02 18:30:09 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:38:21 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/minishell.h"
 
 /*
  * Function: handle_signal
@@ -98,13 +98,14 @@ static int	fetch_line(char **envp)
 		add_history(arg.whole_line);
 		if (!arg.whole_line)
 		{
+			printf("test\n");
 			write(1, "exit\n", 5);
 			break ;
 		}
-		parse_line(&arg);
-		//printf("exit code = %d\n", arg.exit_code);
-		//if (parse_line(&arg))
-		//	execute_cmd(&arg);
+		// parse_line(&arg);
+		// printf("exit code = %d\n", arg.exit_code);
+		if (parse_line(&arg))
+			executing(&arg);
 		free(arg.whole_line);
 		free_lst(arg.lexing);
 		free_cmd_lst(arg.cmd_list);

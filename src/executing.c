@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:17:50 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/03 10:28:04 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 11:34:59 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	ft_pipe(t_arg *arg, int cmd_no)
 		close(arg->pipe_fd[cmd_no % 2][0]);
 		pipe(arg->pipe_fd[cmd_no % 2]);
 	}
-	if (arg->cmd_list->input_redir)
+	if (arg->cmd_list->input_redir[0])
 	{
 		arg->cmd_list->input_fd = handle_redir_input(arg->cmd_list);
 		if (arg->cmd_list->input_fd == -1)
 			return (GENERAL_ERR);
 	}
-	if (arg->cmd_list->output_redir)
+	if (arg->cmd_list->output_redir[0])
 	{
 		arg->cmd_list->output_fd = handle_redir_output(arg->cmd_list);
 		if (arg->cmd_list->output_fd == -1)
@@ -42,7 +42,7 @@ int	ft_pipe(t_arg *arg, int cmd_no)
 	return (0);
 }
 
-void	exec_cmd(t_arg *arg, int cmd_no, char **envp)
+void	exec_cmd(t_arg *arg, int cmd_no)
 {
 	// int	builtin_code;
 
@@ -57,7 +57,7 @@ void	exec_cmd(t_arg *arg, int cmd_no, char **envp)
 		dup2(arg->pipe_fd[cmd_no % 2][1], STDOUT_FILENO);
 		close(arg->pipe_fd[cmd_no % 2][0]);
 		close(arg->pipe_fd[cmd_no % 2][1]);
-		execve(arg->cmd_list->cmd_path, arg->cmd_list->arguments, envp);
+		execve(arg->cmd_list->cmd_path, arg->cmd_list->arguments, arg->envp);
 	}
 }
 
@@ -76,7 +76,7 @@ int	wait_childs(t_cmd *cmd)
 	return(exit_code);
 }
 
-int	handle_multiple_cmd(t_arg *param, char **envp)
+int	handle_multiple_cmd(t_arg *param)
 {
 	t_arg	*arg;
 	int		exit_code;
@@ -91,7 +91,7 @@ int	handle_multiple_cmd(t_arg *param, char **envp)
 			return (exit_code);
 		arg->cmd_list->cmd_path = ft_which(arg->paths,
 			arg->cmd_list->arguments[0]);
-		exec_cmd(arg, cmd_no, envp);
+		exec_cmd(arg, cmd_no);
 		arg->cmd_list = arg->cmd_list->next;
 	}
 	close(arg->pipe_fd[(cmd_no + 1) % 2][1]);
@@ -100,16 +100,16 @@ int	handle_multiple_cmd(t_arg *param, char **envp)
 	return (exit_code);
 }
 
-void	executing(t_arg *arg, char **envp)
+void	executing(t_arg *arg)
 {
 	if (!arg->cmd_list->next)
 	{
 		// execute one command
-		arg->exit_code = handle_one_cmd(arg, envp);
+		arg->exit_code = handle_one_cmd(arg);
 	}
 	else
 	{
 		// execute multiple command
-		arg->exit_code = handle_multiple_cmd(arg, envp);
+		arg->exit_code = handle_multiple_cmd(arg);
 	}
 }

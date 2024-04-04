@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:26:54 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/02 18:32:13 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:24:27 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/minishell.h"
 
 /*
  * Function: free_tab
@@ -54,7 +54,7 @@ void	free_cmd_lst(t_cmd *lst)
 	while (lst != NULL)
 	{
 		new = lst->next;
-		free_tab(lst->argument);
+		free_tab(lst->arguments);
 		free(lst->input_redir);
 		free(lst->output_redir);
 		free_tab(lst->input_file);

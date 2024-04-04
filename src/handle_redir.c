@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/03/28 17:30:05 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 10:44:24 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_hd(t_cmd *cmd, int i)
 	int		tmp_fd;
 	char	*lim_lr;
 
-	tmp_file_name = ft_strjoin(TMP_FILE, i);
+	tmp_file_name = ft_strjoin(TMP_FILE, ft_itoa(i));
 	tmp_fd = open(tmp_file_name, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (tmp_fd == -1)
 		return (tmp_fd);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+         #
+#    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 10:24:05 by sdemaude          #+#    #+#              #
-#    Updated: 2024/03/19 15:29:58 by sdemaude         ###   ########.fr        #
+#    Updated: 2024/04/04 11:01:38 by ccormon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,11 +59,10 @@ SRC = 	ft_atoi.c\
 	ft_lstclear.c\
 	ft_lstiter.c\
 	ft_lstmap.c\
+	ft_strcmp.c\
 	modft_strjoin.c\
-	printf/libftprintf.c\
-	printf/printform.c\
 	gnl/get_next_line.c\
-	gnl/get_next_line_utils.c
+	gnl/get_next_line_utils.c\
 
 %.o: %.c
 	$(CC) -c $< -o $@

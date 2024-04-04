@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+         #
+#    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/25 17:41:22 by sdemaude          #+#    #+#              #
-#    Updated: 2024/04/02 18:30:53 by sdemaude         ###   ########.fr        #
+#    Updated: 2024/04/04 10:16:38 by ccormon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,15 +22,27 @@ LIBFTDIR	= lib/libft
 LIBFT		= $(LIBFTDIR)/libft.a
 
 SRCDIR		= src
-SRCFILE		= main\
-		  inutils\
-		  parse_line\
-		  check_errors\
-		  mod_libft\
-		  handle_var\
-		  init_list\
-		  type\
-		  exit
+SRCFILE		=	check_errors\
+				exec_one_cmd\
+				executing\
+				executing_utils\
+				exit\
+				handle_redir\
+				handle_var\
+				init_list\
+				inutils\
+				main\
+				mod_libft\
+				parse_line\
+				type\
+				# handle_builtins\
+				# builtin_cd\
+				# builtin_echo\
+				# builtin_env\
+				# builtin_exit\
+				# builtin_export\
+				# builtin_pwd\
+				# builtin_unset\
 
 SRC 		= $(addprefix $(SRCDIR)/,$(addsuffix .c,$(SRCFILE)))
 

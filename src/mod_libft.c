@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mod_libft.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 19:33:37 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/02 18:16:25 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:09:59 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/minishell.h"
 
 /*
  * Function: mod_strcat

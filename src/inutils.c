@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   inutils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:39:25 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/02 18:11:19 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:09:59 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/minishell.h"
 
 /*
  * Function: find_str
@@ -24,7 +24,7 @@
  * skip:    Number of characters to skip before returning the found string.
  *
  * returns: A pointer to the beginning of the value associated with the
- *			given string if found, or NULL if the string is not found in 
+ *			given string if found, or NULL if the string is not found in
  *			the environment variables.
  */
 char	*find_str(char **envp, char *to_find, int skip)

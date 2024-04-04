@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:15:20 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/02 14:28:23 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/03 14:22:08 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	isbuiltins(t_arg *arg)
 		return (0);
 }
 
-int	handle_builtins(t_arg *arg, char **envp, int builtin_code)
+int	handle_builtins(t_arg *arg, int builtin_code)
 {
 	if (!arg->cmd_list->output_redir)
 		arg->cmd_list->output_fd = STDOUT_FILENO;
@@ -41,13 +41,13 @@ int	handle_builtins(t_arg *arg, char **envp, int builtin_code)
 	else if (builtin_code == 2)
 		return (builtin_cd(arg));
 	else if (builtin_code == 3)
-		return (builtin_pwd(arg, envp));
+		return (builtin_pwd(arg));
 	else if (builtin_code == 4)
 		return (builtin_export(arg));
 	else if (builtin_code == 5)
-		return (buitlin_unset(arg, envp));
+		return (buitlin_unset(arg));
 	else if (builtin_code == 6)
-		return (builtin_env(arg, envp));
+		return (builtin_env(arg));
 	else if (builtin_code == 7)
 		return (builtin_exit(arg));
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:33:45 by sdemaude          #+#    #+#             */
-/*   Updated: 2023/10/20 15:06:53 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/04 11:02:16 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <string.h>
 # include <ctype.h>
 # include <unistd.h>
-# include "printf/ft_printf.h"
+# include <stdbool.h>
+// # include "printf/ft_printf.h"
 # include "gnl/get_next_line.h"
 
 typedef struct s_list
@@ -59,7 +60,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_calloc(size_t nmeb, size_t size);
-void	ft_striteri(char *s, void (*f)(unsigned int, char*));	
+void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
@@ -69,6 +70,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
+bool	ft_strcmp(const char *s1, const char *s2);
 char	*modft_strjoin(char *s1, char *s2);
 
 #endif

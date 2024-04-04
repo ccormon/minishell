@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:59:30 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/02 18:15:15 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/03 14:25:12 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parsing.h"
+#include "../includes/minishell.h"
 
 /*
  * Function: cmd_lstnew
@@ -31,7 +31,7 @@ static t_cmd	*cmd_lstnew(t_arg *arg)
 		return (0);
 	new->cmd_path = NULL;
 	count = count_token(arg->lexing, TOKEN_WORD) + 1;
-	new->argument = ft_calloc(count, sizeof(char *));
+	new->arguments = ft_calloc(count, sizeof(char *));
 	count = count_token(arg->lexing, TOKEN_INFILE)
 		+ count_token(arg->lexing, TOKEN_HEREDOC) + 1;
 	new->input_redir = ft_calloc(count, sizeof(int));
@@ -106,9 +106,9 @@ static void	fill_tab(t_tmp_list *lexing, t_cmd *cmd, t_token token)
  */
 static int	fill_word(t_cmd **cmd, t_tmp_list *tmp, int i)
 {
-	while ((*cmd)->argument[i])
+	while ((*cmd)->arguments[i])
 		i++;
-	(*cmd)->argument[i] = mod_strdup(tmp->content,
+	(*cmd)->arguments[i] = mod_strdup(tmp->content,
 			ft_strlen(tmp->content));
 	return (i);
 }
@@ -141,8 +141,8 @@ void	init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp)
 		else if (tmp->token == TOKEN_PIPE)
 		{
 			i = 0;
-			if (!(*cmd)->argument[0])
-				(*cmd)->argument[0] = mod_strdup("cat", 3);
+			if (!(*cmd)->arguments[0])
+				(*cmd)->arguments[0] = mod_strdup("cat", 3);
 			cmd_lstadd_back(cmd, cmd_lstnew(arg));
 			cmd = &(*cmd)->next;
 		}

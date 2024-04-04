@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/03 15:45:05 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 13:31:32 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_arg
 	char		**envp;
 	char		**paths;
 	t_tmp_list	*lexing;
+	int			nb_cmd;
 	t_cmd		*cmd_list;
 	int			pipe_fd[2][2];
 }	t_arg;

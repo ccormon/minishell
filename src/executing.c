@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:17:50 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 13:30:37 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 14:49:46 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_pipe(t_arg *arg, int cmd_no)
 {
 	if (cmd_no == 0)
 		pipe(arg->pipe_fd[cmd_no % 2]);
-	else if (!arg->cmd_list->next)
+	else if (cmd_no + 1 == arg->nb_cmd)
 	{
 		close(arg->pipe_fd[(cmd_no + 1) % 2][1]);
 		close(arg->pipe_fd[cmd_no % 2][0]);
@@ -47,12 +47,14 @@ int	ft_pipe(t_arg *arg, int cmd_no)
 		arg->cmd_list->input_fd = handle_redir_input(arg->cmd_list);
 		if (arg->cmd_list->input_fd == -1)
 			return (GENERAL_ERR);
+		arg->pipe_fd[(cmd_no + 1) % 2][0] = dup(arg->cmd_list->input_fd);
 	}
 	if (arg->cmd_list->output_redir[0])
 	{
 		arg->cmd_list->output_fd = handle_redir_output(arg->cmd_list);
 		if (arg->cmd_list->output_fd == -1)
 			return (GENERAL_ERR);
+		arg->pipe_fd[cmd_no % 2][1] = dup(arg->cmd_list->output_fd);
 	}
 	return (0);
 }
@@ -99,7 +101,7 @@ int	handle_multiple_cmd(t_arg *param)
 
 	arg = param;
 	cmd_no = 0;
-	while (arg->cmd_list->next)
+	while (arg->cmd_list)
 	{
 		exit_code = ft_pipe(arg, cmd_no);
 		if (exit_code != 0)
@@ -109,7 +111,8 @@ int	handle_multiple_cmd(t_arg *param)
 		exec_cmd(arg, cmd_no);
 		arg->cmd_list = arg->cmd_list->next;
 	}
-	close(arg->pipe_fd[(cmd_no + 1) % 2][1]);
+	if (arg->cmd_list->output_file[0])
+		close(arg->pipe_fd[(cmd_no + 1) % 2][1]);
 	close(arg->pipe_fd[cmd_no % 2][0]);
 	exit_code = wait_childs(param->cmd_list);
 	return (exit_code);

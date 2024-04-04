@@ -6,12 +6,13 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:15:20 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/03 14:22:08 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/04 13:34:02 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// Avec des token ce serait plus simple !
 int	isbuiltins(t_arg *arg)
 {
 	if (ft_strcmp(arg->cmd_list->arguments[0], "echo"))

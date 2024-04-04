@@ -6,7 +6,7 @@
 #    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/25 17:41:22 by sdemaude          #+#    #+#              #
-#    Updated: 2024/04/04 10:16:38 by ccormon          ###   ########.fr        #
+#    Updated: 2024/04/04 15:06:44 by sdemaude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRCFILE		=	check_errors\
 				exec_one_cmd\
 				executing\
 				executing_utils\
-				exit\
 				handle_redir\
 				handle_var\
 				init_list\
@@ -35,11 +34,11 @@ SRCFILE		=	check_errors\
 				mod_libft\
 				parse_line\
 				type\
+				builtin_exit\
 				# handle_builtins\
 				# builtin_cd\
 				# builtin_echo\
 				# builtin_env\
-				# builtin_exit\
 				# builtin_export\
 				# builtin_pwd\
 				# builtin_unset\

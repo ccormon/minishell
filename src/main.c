@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:52:15 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/04 14:49:25 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:04:47 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static int	fetch_line(char **envp)
 
 	arg.whole_line = NULL;
 	arg.paths = NULL;
+	arg.nb_cmd = 0;
 	arg.envp = ft_tabdup(envp);
 	arg.prompt = get_prompt(arg.envp);
 	init_paths(&arg, arg.envp);

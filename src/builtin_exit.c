@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/04 18:02:15 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:35:15 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	free_cmd_lst(t_cmd *lst)
 	while (lst != NULL)
 	{
 		new = lst->next;
+		free(lst->cmd_path);
 		free_tab(lst->argv);
 		free(lst->input_redir);
 		free(lst->output_redir);

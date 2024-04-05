@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:17:50 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/05 17:27:16 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/05 17:45:41 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	ft_pipe(t_arg *arg, int cmd_no)
 			return (GENERAL_ERR);
 		arg->pipe_fd[(cmd_no + 1) % 2][0] = dup(arg->cmd_list->input_fd);
 	}
+	else if (cmd_no == 0)
+		arg->pipe_fd[(cmd_no + 1) % 2][0] = dup(STDIN_FILENO);
 	if (arg->cmd_list->output_redir[0])
 	{
 		arg->cmd_list->output_fd = handle_redir_output(arg->cmd_list);
@@ -58,6 +60,8 @@ int	ft_pipe(t_arg *arg, int cmd_no)
 			return (GENERAL_ERR);
 		arg->pipe_fd[cmd_no % 2][1] = dup(arg->cmd_list->output_fd);
 	}
+	else if (cmd_no + 1 == arg->nb_cmd)
+		arg->pipe_fd[cmd_no % 2][1] = dup(STDOUT_FILENO);
 	return (0);
 }
 
@@ -71,23 +75,23 @@ void	exec_cmd(t_arg *arg, int cmd_no)
 	arg->cmd_list->pid_child = fork();
 	if (arg->cmd_list->pid_child == 0)
 	{
-		if (cmd_no == 0 && !arg->cmd_list->input_redir[0])
-		{
-			dup2(arg->pipe_fd[cmd_no % 2][1], STDOUT_FILENO);
-			close(arg->pipe_fd[cmd_no % 2][1]);
-		}
-		else if (cmd_no + 1 == arg->nb_cmd && !arg->cmd_list->output_redir[0])
-		{
+		// if (cmd_no == 0 && !arg->cmd_list->input_redir[0])
+		// {
+		// 	dup2(arg->pipe_fd[cmd_no % 2][1], STDOUT_FILENO);
+		// 	close(arg->pipe_fd[cmd_no % 2][1]);
+		// }
+		// else if (cmd_no + 1 == arg->nb_cmd && !arg->cmd_list->output_redir[0])
+		// {
+		// 	dup2(arg->pipe_fd[(cmd_no + 1) % 2][0], STDIN_FILENO);
+		// 	close(arg->pipe_fd[(cmd_no + 1) % 2][0]);
+		// }
+		// else
+		// {
 			dup2(arg->pipe_fd[(cmd_no + 1) % 2][0], STDIN_FILENO);
 			close(arg->pipe_fd[(cmd_no + 1) % 2][0]);
-		}
-		else
-		{
-			dup2(arg->pipe_fd[(cmd_no + 1) % 2][0], STDIN_FILENO);
-			close(arg->pipe_fd[(cmd_no + 1) % 2][0]);
 			dup2(arg->pipe_fd[cmd_no % 2][1], STDOUT_FILENO);
 			close(arg->pipe_fd[cmd_no % 2][1]);
-		}
+		// }
 		close(arg->pipe_fd[cmd_no % 2][0]);
 		execve(arg->cmd_list->cmd_path, arg->cmd_list->argv, arg->envp);
 	}

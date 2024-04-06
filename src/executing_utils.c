@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/02 13:26:53 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/06 15:45:29 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,21 @@ char	*ft_which(char **paths, char *cmd)
 		free(cmd_path);
 	}
 	return (NULL);
+}
+
+int	nb_cmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+	int		i;
+
+	tmp = cmd;
+	if (!tmp)
+		return (0);
+	i = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
 }

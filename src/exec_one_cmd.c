@@ -3,22 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 18:03:18 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:27:17 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	exec_one_cmd(t_arg *arg)
+bool	handle_redir_one_cmd(t_arg *arg)
 {
-	// int	builtin_code;
+	arg->cmd_list->input_fd = handle_redir_input(arg->cmd_list);
+	if (arg->cmd_list->input_fd == -1)
+		return (false);
+	arg->cmd_list->output_fd = handle_redir_output(arg->cmd_list);
+	if (arg->cmd_list->output_fd == -1)
+		return (false);
+	return (true);
+}
 
-	// builtin_code = isbuiltins(arg);
-	// if (builtin_code != 0)
-	// 	return (handle_builtins(arg, envp, builtin_code));
+void	exec_one_cmd(t_arg *arg)
+{
+	if (handle_builtins(arg, arg->cmd_list))
+		return ;
 	arg->cmd_list->pid_child = fork();
 	if (arg->cmd_list->pid_child == 0)
 	{
@@ -39,30 +47,22 @@ int	exec_one_cmd(t_arg *arg)
 	if (arg->cmd_list->output_redir[0])
 		close(arg->cmd_list->output_fd);
 	waitpid(arg->cmd_list->pid_child, &arg->cmd_list->status, 0);
-	return (WEXITSTATUS(arg->cmd_list->status));
+	arg->exit_code = WEXITSTATUS(arg->cmd_list->status);
 }
 
-int	handle_one_cmd(t_arg *arg)
+void	handle_one_cmd(t_arg *arg)
 {
+	if (!handle_redir_one_cmd(arg))
+	{
+		arg->exit_code = GENERAL_ERR;
+		return ;
+	}
 	arg->cmd_list->cmd_path = ft_which(arg->paths,
 		arg->cmd_list->argv[0]);
 	if (!arg->cmd_list->cmd_path)
-		return (INVALID_CMD);
-	if (arg->cmd_list->input_redir[0])
 	{
-		arg->cmd_list->input_fd = handle_redir_input(arg->cmd_list);
-		if (arg->cmd_list->input_fd == -1)
-			return (GENERAL_ERR);
+		arg->exit_code = INVALID_CMD;
+		return ;
 	}
-	// else
-	// 	arg->cmd_list->input_fd = STDIN_FILENO;
-	if (arg->cmd_list->output_redir[0])
-	{
-		arg->cmd_list->output_fd = handle_redir_output(arg->cmd_list);
-		if (arg->cmd_list->output_fd == -1)
-			return (GENERAL_ERR);
-	}
-	// else
-	// 	arg->cmd_list->output_fd = STDOUT_FILENO;
-	return (exec_one_cmd(arg));
+	exec_one_cmd(arg);
 }

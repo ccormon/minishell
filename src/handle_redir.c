@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/04 13:18:49 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/06 17:21:28 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	handle_redir_input(t_cmd *cmd)
 	int	nb_redir;
 	int	i;
 
+	if (!cmd->input_redir[0])
+		return (STDIN_FILENO);
 	nb_redir = nb_redir_input(cmd);
 	tmp_fd = malloc(nb_redir * sizeof(int));
 	i = -1;
@@ -114,6 +116,8 @@ int	handle_redir_output(t_cmd *cmd)
 	int	nb_redir;
 	int	i;
 
+	if (!cmd->output_redir[0])
+		return (STDOUT_FILENO);
 	nb_redir = nb_redir_output(cmd);
 	tmp_fd = malloc(nb_redir * sizeof(int));
 	i = 0;

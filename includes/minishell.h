@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/05 15:19:10 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/06 17:26:54 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,28 +131,38 @@ int			replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i);
 //CREATE COMMAND LINKED LIST (INIT_LIST)
 void		init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp);
 
-// Executing
-void		executing(t_arg *param);
-//  handle_redirections
-int			nb_redir(t_cmd *cmd);
+// EXECUTING
+void		executing(t_arg *arg);
+//  utils
+char		*ft_strjoin_path(char *path, char *cmd);
+char		*ft_which(char **paths, char *cmd);
+int			nb_cmd(t_cmd *cmd);
+//  exec_one_cmd
+bool		handle_redir_one_cmd(t_arg *arg);
+void		exec_one_cmd(t_arg *arg);
+void		handle_one_cmd(t_arg *arg);
+//  exec_multi_cmd
+bool		handle_redir_multi_cmd(t_arg *arg, t_cmd *cmd, int cmd_no);
+bool		ft_pipe(t_arg *arg, t_cmd *cmd, int cmd_no);
+void		exec_cmd(t_arg *arg, t_cmd *cmd, int cmd_no);
+void		wait_childs(t_arg *arg, t_cmd *cmd);
+void		handle_multiple_cmd(t_arg *arg, t_cmd *cmd);
+//  handle_redir
+int			nb_redir_input(t_cmd *cmd);
+int 		nb_redir_output(t_cmd *cmd);
 void		read_input(int tmp_fd, char *lim_lr);
 int			open_hd(t_cmd *cmd, int i);
 int			handle_redir_input(t_cmd *cmd);
 int			handle_redir_output(t_cmd *cmd);
 //  handle_builtins
 int			isbuiltins(t_arg *arg);
-int			handle_builtins(t_arg *arg, int builtin_code);
-//  one_command
-int			exec_one_cmd(t_arg *arg);
-int			handle_one_cmd(t_arg *arg);
-//  utils
-char		*ft_strjoin_path(char *path, char *cmd);
-char		*ft_which(char **paths, char *cmd);
+bool		handle_builtins(t_arg *arg, t_cmd *cmd);
 
 // BUILTINS
 void		free_tab(char **tab);
 void		free_lst(t_tmp_list *lst);
 void		free_cmd_lst(t_cmd *lst);
 void		builtin_exit(t_arg *arg, bool builtin);
+void		builtin_echo(t_arg *arg, int fd);
 
 #endif

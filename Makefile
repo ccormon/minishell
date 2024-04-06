@@ -6,7 +6,7 @@
 #    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/25 17:41:22 by sdemaude          #+#    #+#              #
-#    Updated: 2024/04/04 15:06:44 by sdemaude         ###   ########.fr        #
+#    Updated: 2024/04/06 17:28:20 by ccormon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ LIBFT		= $(LIBFTDIR)/libft.a
 
 SRCDIR		= src
 SRCFILE		=	check_errors\
+				exec_multi_cmd\
 				exec_one_cmd\
 				executing\
 				executing_utils\
@@ -34,10 +35,10 @@ SRCFILE		=	check_errors\
 				mod_libft\
 				parse_line\
 				type\
+				handle_builtins\
 				builtin_exit\
-				# handle_builtins\
+				builtin_echo\
 				# builtin_cd\
-				# builtin_echo\
 				# builtin_env\
 				# builtin_export\
 				# builtin_pwd\

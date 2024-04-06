@@ -1,6 +1,10 @@
-ho
-ho
-ho
-ha
-ha
-ha
+total 80
+drwxr-xr-x 2 ccormon 2023_le-havre    25 Apr  5 15:15 includes
+drwxr-xr-x 3 ccormon 2023_le-havre    19 Apr  5 15:15 lib
+-rw-r--r-- 1 ccormon 2023_le-havre  1984 Apr  5 15:15 Makefile
+-rwxr-xr-x 1 ccormon 2023_le-havre 64056 Apr  6 14:09 minishell
+drwxr-xr-x 2 ccormon 2023_le-havre   261 Apr  6 14:09 obj
+-rwxr-xr-x 1 ccormon 2023_le-havre     0 Apr  6 14:48 outfile
+-rw-r--r-- 1 ccormon 2023_le-havre   309 Apr  5 15:15 readline.supp
+-rw-r--r-- 1 ccormon 2023_le-havre    11 Apr  5 15:15 README.md
+drwxr-xr-x 2 ccormon 2023_le-havre  4096 Apr  5 15:15 src

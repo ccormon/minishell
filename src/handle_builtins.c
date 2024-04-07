@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtins.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:15:20 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/06 17:27:37 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/07 20:07:18 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ bool	handle_builtins(t_arg *arg, t_cmd *cmd)
 	if (code == 0)
 		return (false);
 	else if (code == 1)
-		builtin_echo(arg, cmd->output_fd);
-	// else if (code == 2)
-	// 	builtin_cd(arg);
-	// else if (code == 3)
-	// 	builtin_pwd(arg);
-	// else if (code == 4)
-	// 	builtin_export(arg);
-	// else if (code == 5)
-	// 	buitlin_unset(arg);
-	// else if (code == 6)
-	// 	builtin_env(arg);
+		builtin_echo(arg, cmd->argv, cmd->output_fd);
+	else if (code == 2)
+		builtin_cd(arg, cmd->argv);
+	else if (code == 3)
+		builtin_pwd(arg, cmd->output_fd);
+	else if (code == 4)
+		builtin_export(arg, cmd->argv, cmd->output_fd);
+	else if (code == 5)
+		builtin_unset(arg, cmd->argv);
+	else if (code == 6)
+		builtin_env(arg, cmd->argv, cmd->output_fd);
 	else if (code == 7)
-		builtin_exit(arg, true);
+		builtin_exit(arg, cmd->argv, true);
 	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/06 15:12:00 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/07 20:04:09 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,35 +65,35 @@ void	free_cmd_lst(t_cmd *lst)
 	}
 }
 
-bool	get_exit_code(t_arg *arg)
+bool	get_exit_code(t_arg *arg, char **argv)
 {
-	if (arg->cmd_list->argv[1])
+	if (argv[1])
 	{
-		if (!ft_islong(arg->cmd_list->argv[1]))
+		if (!ft_islong(argv[1]))
 		{
 			ft_putstr_fd("exit : numeric argument required\n", 2);
 			arg->exit_code = 2;
 		}
-		else if (arg->cmd_list->argv[2])
+		else if (argv[2])
 		{
 			ft_putstr_fd("exit : too many arguments\n", 2);
 			arg->exit_code = 1;
 			return (false);
 		}
 		else
-			arg->exit_code = ft_atoi(arg->cmd_list->argv[1]);
+			arg->exit_code = ft_atoi(argv[1]);
 	}
 	return (true);
 }
 
-void	builtin_exit(t_arg *arg, bool builtin)
+void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 {
 	if (arg->nb_cmd <= 1)
 	{
 		write(1, "exit\n", 5);
 		if (builtin)
 		{
-			if (!get_exit_code(arg))
+			if (!get_exit_code(arg, argv))
 				return ;
 			free_lst(arg->lexing);
 			free_cmd_lst(arg->cmd_list);
@@ -101,6 +101,7 @@ void	builtin_exit(t_arg *arg, bool builtin)
 		rl_clear_history();
 		free(arg->prompt);
 		free(arg->whole_line);
+		free(arg->pwd);
 		free_tab(arg->paths);
 		free_tab(arg->envp);
 		exit(arg->exit_code);

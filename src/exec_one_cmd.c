@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/06 17:27:17 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/06 19:56:10 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ bool	handle_redir_one_cmd(t_arg *arg)
 
 void	exec_one_cmd(t_arg *arg)
 {
-	if (handle_builtins(arg, arg->cmd_list))
-		return ;
 	arg->cmd_list->pid_child = fork();
 	if (arg->cmd_list->pid_child == 0)
 	{
@@ -57,6 +55,8 @@ void	handle_one_cmd(t_arg *arg)
 		arg->exit_code = GENERAL_ERR;
 		return ;
 	}
+	if (handle_builtins(arg, arg->cmd_list))
+		return ;
 	arg->cmd_list->cmd_path = ft_which(arg->paths,
 		arg->cmd_list->argv[0]);
 	if (!arg->cmd_list->cmd_path)

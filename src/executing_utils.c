@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/06 15:45:29 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/07 11:44:19 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*ft_strjoin_path(char *path, char *cmd)
 	return (cmd_path);
 }
 
+// what if there is no paths ? -> NULL
 char	*ft_which(char **paths, char *cmd)
 {
 	char	*cmd_path;
@@ -41,6 +42,8 @@ char	*ft_which(char **paths, char *cmd)
 			return (NULL);
 	}
 	i = 0;
+	if (!paths)			// changed to handle when env -i 
+		return (NULL);	// 
 	while (paths[i])
 	{
 		cmd_path = ft_strjoin_path(paths[i++], cmd);

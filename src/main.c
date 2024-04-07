@@ -6,11 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:52:15 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/04 18:01:51 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/07 18:07:40 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdio.h>
 
 /*
  * Function: handle_signal
@@ -30,12 +31,6 @@ static void	handle_signal(int sig)
 		rl_redisplay();
 	}
 }
-/*struct sigaction	sig;
-*
-*sig.sa_handler = &handle_signal;
-*sigaction(SIGINT, &sig, NULL);
-*sigaction(SIGQUIT, SIG_IGN, NULL);
-*/
 
 /*
  * Function: init_paths
@@ -59,7 +54,6 @@ static void	init_paths(t_arg *arg, char **envp)
 	arg->paths = ft_split(path_line, ':');
 }
 
-//is it good for export ??
 static char	**ft_tabdup(char **src)
 {
 	int		i;
@@ -81,31 +75,41 @@ static char	**ft_tabdup(char **src)
 	return (dest);
 }
 
+static void	init_arg(t_arg *arg, char **envp)
+{
+	arg->whole_line = NULL;
+	arg->paths = NULL;
+	arg->exit_code = 0;
+	arg->nb_cmd = 0;
+	arg->envp = ft_tabdup(envp);
+	arg->pwd = getcwd(NULL, 0);
+	arg->prompt = get_prompt(arg->envp);
+	init_paths(arg, arg->envp);
+	if (!find_str(envp, "PWD=", 4))
+		rewrite_evar(arg, "PWD=", getcwd(NULL, 0));
+}
+
 static int	fetch_line(char **envp)
 {
 	t_arg	arg;
 
-	arg.whole_line = NULL;
-	arg.paths = NULL;
-	arg.nb_cmd = 0;
-	arg.envp = ft_tabdup(envp);
-	arg.prompt = get_prompt(arg.envp);
-	init_paths(&arg, arg.envp);
+	init_arg(&arg, envp);
 	while (1)
 	{
 		arg.lexing = NULL;
-		arg.exit_code = 0;
 		arg.whole_line = readline(arg.prompt);
 		add_history(arg.whole_line);
 		if (!arg.whole_line)
 			break ;
 		if (parse_line(&arg))
+		{
 			executing(&arg);
+			free_lst(arg.lexing);
+			free_cmd_lst(arg.cmd_list);
+		}
 		free(arg.whole_line);
-		free_lst(arg.lexing);
-		free_cmd_lst(arg.cmd_list);
 	}
-	builtin_exit(&arg, false);
+	builtin_exit(&arg, NULL, false);
 	return (arg.exit_code);
 }
 

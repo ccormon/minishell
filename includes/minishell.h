@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/06 17:26:54 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/07 20:40:21 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_arg
 {
 	int			exit_code; // init to 0
 	char		*prompt;
+	char		*pwd;
 	char		*whole_line;
 	char		**arg_tab;
 	char		**envp;
@@ -149,7 +150,7 @@ void		wait_childs(t_arg *arg, t_cmd *cmd);
 void		handle_multiple_cmd(t_arg *arg, t_cmd *cmd);
 //  handle_redir
 int			nb_redir_input(t_cmd *cmd);
-int 		nb_redir_output(t_cmd *cmd);
+int			nb_redir_output(t_cmd *cmd);
 void		read_input(int tmp_fd, char *lim_lr);
 int			open_hd(t_cmd *cmd, int i);
 int			handle_redir_input(t_cmd *cmd);
@@ -162,7 +163,16 @@ bool		handle_builtins(t_arg *arg, t_cmd *cmd);
 void		free_tab(char **tab);
 void		free_lst(t_tmp_list *lst);
 void		free_cmd_lst(t_cmd *lst);
-void		builtin_exit(t_arg *arg, bool builtin);
-void		builtin_echo(t_arg *arg, int fd);
+void		builtin_exit(t_arg *arg, char **argv, bool builtin);
+void		builtin_echo(t_arg *arg, char **argv, int fd);
+
+void		builtin_env(t_arg *arg, char **argv, int fd);
+void		builtin_pwd(t_arg *arg, int fd);
+void		builtin_cd(t_arg *arg, char **argv);
+void		rewrite_evar(t_arg *arg, char *name, char *content);
+void		builtin_export(t_arg *arg, char **argv, int fd);
+void		builtin_unset(t_arg *arg, char **argv);
+
+char		**find_var(char **envp, char *to_find);
 
 #endif

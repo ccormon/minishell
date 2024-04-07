@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:49:13 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/03 13:09:59 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/07 13:47:25 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static char	*get_var_content(t_arg *arg, char *str)
 	str++;
 	if (*str == '?')
 		return (ft_itoa(arg->exit_code));
-	tmp = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	while (*str && ft_isalnum(*str))
+	tmp = malloc(sizeof(char) * (ft_strlen(str) + 2));
+	while (*str && (ft_isalnum(*str) || *str == '_'))
 	{
 		tmp[i] = *str;
 		i++;
@@ -69,7 +69,7 @@ static char	*rewrite_str(char *str, char *new, int i)
 	if (str[i] == '?')
 		i++;
 	else
-		while (ft_isalnum(str[i]))
+		while (ft_isalnum(str[i]) || str[i] == '_')
 			i++;
 	mod_strcat(new_line, str + i);
 	free(str);
@@ -138,7 +138,8 @@ int	replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i)
 	{
 		len = 1;
 		while ((*list)->content[len + i]
-			&& ft_isalnum((*list)->content[len + i]))
+			&& (ft_isalnum((*list)->content[len + i])
+				|| (*list)->content[len + i] == '_'))
 			len++;
 		shift_str((*list)->content + i, len);
 		return (i);

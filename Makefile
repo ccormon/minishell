@@ -6,7 +6,7 @@
 #    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/25 17:41:22 by sdemaude          #+#    #+#              #
-#    Updated: 2024/04/06 17:28:20 by ccormon          ###   ########.fr        #
+#    Updated: 2024/04/07 20:21:21 by sdemaude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,11 @@ SRCFILE		=	check_errors\
 				handle_builtins\
 				builtin_exit\
 				builtin_echo\
-				# builtin_cd\
-				# builtin_env\
-				# builtin_export\
-				# builtin_pwd\
-				# builtin_unset\
+				builtin_env\
+				builtin_pwd\
+				builtin_cd\
+				builtin_export\
+				builtin_unset\
 
 SRC 		= $(addprefix $(SRCDIR)/,$(addsuffix .c,$(SRCFILE)))
 

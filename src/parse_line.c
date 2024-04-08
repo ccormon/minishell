@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:07:26 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 11:22:23 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:15:34 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ static void	lexing(t_arg *arg, char *str)
  */
 bool	parse_line(t_arg *arg)
 {
+	if (!arg->whole_line[0])
+		return (false);
 	if (!check_errors(arg, arg->whole_line))
 		return (false);
 	lexing(arg, arg->whole_line);

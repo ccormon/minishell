@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:49:13 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 11:57:19 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:48:59 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ int	replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i)
 	int		len;
 	char	*replace;
 
+	if (ft_isspace((*list)->content[i + 1]) || (*list)->content[i + 1] == '\0'
+		|| (*list)->content[i + 1] == '\"' || (*list)->content[i + 1] == '\'' )
+		return (++i);
 	replace = get_var_content(arg, (*list)->content + i);
 	if (!replace)
 	{

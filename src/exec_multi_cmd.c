@@ -6,13 +6,13 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 15:54:05 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/08 17:21:34 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_fork(t_cmd *cmd)
+/*void	ft_fork(t_cmd *cmd)
 {
 	while (cmd)
 	{
@@ -36,10 +36,12 @@ void	ft_pipe(t_arg *arg, t_cmd *cmd, int pipe_fd[arg->nb_cmd][2], int cmd_no)
 
 	}
 }
-
-void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
+*/
+void	handle_multiple_cmd(t_arg *arg, t_cmd *cmd)
 {
-	int	pipe_fd[arg->nb_cmd][2];
+	(void)arg;
+	(void)cmd;
+/*	int	pipe_fd[arg->nb_cmd][2];
 	int	cmd_no;
 
 	ft_fork(arg->cmd_list);
@@ -47,7 +49,7 @@ void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 	while (cmd_no < arg->nb_cmd)
 	{
 		ft_pipe(arg, cmd, cmd_no);
-	}
+	}*/
 }
 
 // void	ft_pipe(t_arg *arg, t_cmd *cmd, int cmd_no)

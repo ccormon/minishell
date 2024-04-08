@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 10:51:28 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 11:49:50 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:05:17 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	builtin_export(t_arg *arg, char **argv, int fd)
 		j = 0;
 		while (ft_isalnum(argv[i][j]) || argv[i][j] == '_')
 			j++;
+		if (!ft_isdigit(argv[i][0]) && argv[i][j] == '\0')
+			return ;
 		if (argv[i][j] != '=' || (!ft_isalpha(argv[i][0]) && argv[i][0] != '_'))
 		{
 			ft_putstr_fd("export : not a valid identifier\n", 2);

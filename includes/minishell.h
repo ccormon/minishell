@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 11:49:55 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:54:45 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_arg
 	t_tmp_list	*lexing;
 	int			nb_cmd;
 	t_cmd		*cmd_list;
-	int			pipe_fd[2][2];
+	// int			pipe_fd[2][2];
 }	t_arg;
 
 /************** FONCTIONS **************/
@@ -149,8 +149,7 @@ void		exec_one_cmd(t_arg *arg);
 void		handle_one_cmd(t_arg *arg);
 
 //(EXEC_MULTI_CMD)
-bool		handle_redir_multi_cmd(t_arg *arg, t_cmd *cmd, int cmd_no);
-bool		ft_pipe(t_arg *arg, t_cmd *cmd, int cmd_no);
+void		ft_pipe(t_arg *arg, t_cmd *cmd, int cmd_no);
 void		exec_cmd(t_arg *arg, t_cmd *cmd, int cmd_no);
 void		wait_childs(t_arg *arg, t_cmd *cmd);
 void		handle_multiple_cmd(t_arg *arg, t_cmd *cmd);

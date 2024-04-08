@@ -6,17 +6,16 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:55:56 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/07 20:40:12 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 09:40:50 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <dirent.h>
 
-// what if HOME is manually changed 
 static void	exec_cd(t_arg *arg, char *path)
 {
-	DIR	*dir;
+	DIR		*dir;
 
 	if (!path)
 	{
@@ -37,9 +36,8 @@ static void	exec_cd(t_arg *arg, char *path)
 		chdir(path);
 		free(arg->pwd);
 		arg->pwd = getcwd(NULL, 0);
-		rewrite_evar(arg, "OLDPWD=", //change it, when PWD is unset segfault do not malloc second one
-			ft_strdup(find_str(arg->envp, "PWD=", 4)));
-		rewrite_evar(arg, "PWD=", getcwd(NULL, 0));
+		rewrite_evar(arg, "OLDPWD=", find_str(arg->envp, "PWD=", 4));
+		rewrite_evar(arg, "PWD=", arg->pwd);
 	}
 }
 

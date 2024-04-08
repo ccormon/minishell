@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:50:20 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/07 20:40:27 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:05:52 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	shift_tab(char **tab)
 	i = 0;
 	if (!tab)
 		return ;
+	free(tab[i]);
 	while (tab[i + 1])
 	{
 		tab[i] = tab[i + 1];
@@ -41,6 +42,7 @@ void	exec_unset(t_arg *arg, char *str)
 	}
 	name[i] = '\0';
 	shift_tab(find_var(arg->envp, name));
+	free(name);
 }
 
 void	builtin_unset(t_arg *arg, char **argv)

@@ -6,12 +6,11 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:52:15 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/07 18:07:40 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:39:30 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdio.h>
 
 /*
  * Function: handle_signal
@@ -30,87 +29,6 @@ static void	handle_signal(int sig)
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
-}
-
-/*
- * Function: init_paths
- * ---------------------
- * Initializes the paths for executable files by extracting the PATH environment
- * variable.
- *
- * arg:   Pointer to a structure containing command argv and settings.
- * envp:  Array of strings containing the environment variables.
- */
-static void	init_paths(t_arg *arg, char **envp)
-{
-	char	*path_line;
-
-	path_line = find_str(envp, "PATH=", 5);
-	if (!path_line)
-	{
-		arg->paths = NULL;
-		return ;
-	}
-	arg->paths = ft_split(path_line, ':');
-}
-
-static char	**ft_tabdup(char **src)
-{
-	int		i;
-	char	**dest;
-
-	i = 0;
-	if (!src)
-		return (NULL);
-	while (src[i])
-		i++;
-	dest = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = ft_strdup(src[i]);
-		i++;
-	}
-	dest[i] = NULL;
-	return (dest);
-}
-
-static void	init_arg(t_arg *arg, char **envp)
-{
-	arg->whole_line = NULL;
-	arg->paths = NULL;
-	arg->exit_code = 0;
-	arg->nb_cmd = 0;
-	arg->envp = ft_tabdup(envp);
-	arg->pwd = getcwd(NULL, 0);
-	arg->prompt = get_prompt(arg->envp);
-	init_paths(arg, arg->envp);
-	if (!find_str(envp, "PWD=", 4))
-		rewrite_evar(arg, "PWD=", getcwd(NULL, 0));
-}
-
-static int	fetch_line(char **envp)
-{
-	t_arg	arg;
-
-	init_arg(&arg, envp);
-	while (1)
-	{
-		arg.lexing = NULL;
-		arg.whole_line = readline(arg.prompt);
-		add_history(arg.whole_line);
-		if (!arg.whole_line)
-			break ;
-		if (parse_line(&arg))
-		{
-			executing(&arg);
-			free_lst(arg.lexing);
-			free_cmd_lst(arg.cmd_list);
-		}
-		free(arg.whole_line);
-	}
-	builtin_exit(&arg, NULL, false);
-	return (arg.exit_code);
 }
 
 /*

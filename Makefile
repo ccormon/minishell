@@ -6,7 +6,7 @@
 #    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/25 17:41:22 by sdemaude          #+#    #+#              #
-#    Updated: 2024/04/08 10:19:45 by sdemaude         ###   ########.fr        #
+#    Updated: 2024/04/08 10:36:11 by sdemaude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCFILE		=	check_errors\
 				exec_one_cmd\
 				executing\
 				executing_utils\
+				fetch_line\
 				handle_redir\
 				handle_var\
 				init_list\

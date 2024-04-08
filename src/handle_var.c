@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:49:13 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/07 13:47:25 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:27:53 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*get_var_content(t_arg *arg, char *str)
 	i = 0;
 	str++;
 	if (*str == '?')
-		return (ft_itoa(arg->exit_code));
+		return (ft_itoa(arg->exit_code)); //leak here
 	tmp = malloc(sizeof(char) * (ft_strlen(str) + 2));
 	while (*str && (ft_isalnum(*str) || *str == '_'))
 	{

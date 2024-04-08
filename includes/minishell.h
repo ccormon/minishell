@@ -6,18 +6,18 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 10:15:57 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:06:54 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/* LIBFT */
+/**************** LIBFT ****************/
 
 # include "../lib/libft/libft.h"
 
-/* INCLUDES */
+/************** INCLUDES ***************/
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -35,14 +35,14 @@
 # include <stdbool.h>
 # include <limits.h>
 
-/* DEFINE */
+/*************** DEFINE ****************/
 
 # define GENERAL_ERR 1
 # define EXEC_CMD_KO 126
 # define INVALID_CMD 127
 # define TMP_FILE "/tmp/tmp"
 
-/* ENUM */
+/**************** ENUM *****************/
 
 typedef enum e_token
 {
@@ -54,7 +54,7 @@ typedef enum e_token
 	TOKEN_PIPE
 }	t_token;
 
-/* STRUCT */
+/*************** STRUCT ****************/
 
 typedef struct s_cmd		t_cmd;
 typedef struct s_tmp_list	t_tmp_list;
@@ -84,7 +84,7 @@ typedef struct s_tmp_list
 
 typedef struct s_arg
 {
-	int			exit_code; // init to 0
+	int			exit_code;
 	char		*prompt;
 	char		*pwd;
 	char		*whole_line;
@@ -97,16 +97,25 @@ typedef struct s_arg
 	int			pipe_fd[2][2];
 }	t_arg;
 
-/* FONCTIONS */
+/************** FONCTIONS **************/
 
-//GET LINE, PARSE AND INIT TAB (PARSE_LINE)
-void		shift_str(char *str, int len);
-bool		parse_line(t_arg *arg);
+//ENTRY POINT OF THE PROGRAM (FETCH_LINE)
+int			fetch_line(char **envp);
 
 //PROMPT NAME AND MORE (INUTILS)
 char		*find_str(char **envp, char *to_find, int skip);
 char		*get_prompt(char **envp);
 int			count_token(t_tmp_list *lexing, t_token token);
+
+//MODIFIED LIBFT FUNCTIONS (MOD_LIBFT)
+char		*mod_strdup(char *s, int len);
+t_tmp_list	*mod_lstnew(char *content);
+void		mod_lstadd_back(t_tmp_list **lst, t_tmp_list *new);
+void		mod_strcat(char *dest, char *src);
+
+//GET LINE, PARSE AND INIT TAB (PARSE_LINE)
+void		shift_str(char *str, int len);
+bool		parse_line(t_arg *arg);
 
 //CHECK FOR SPECIAL CHAR (TYPE)
 bool		ft_isspace(char c);
@@ -120,59 +129,72 @@ bool		check_redir_errors(char *str);
 bool		check_errors(t_arg *arg, char *str);
 void		in_quotes(char c, int *state);
 
-//MODIFIED LIBFT FUNCTIONS (MOD_LIBFT)
-char		*mod_strdup(char *s, int len);
-t_tmp_list	*mod_lstnew(char *content);
-void		mod_lstadd_back(t_tmp_list **lst, t_tmp_list *new);
-void		mod_strcat(char *dest, char *src);
-
 //REPLACE ENVIRONEMENT VARIABLES (HANDLE_VAR)
 int			replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i);
 
 //CREATE COMMAND LINKED LIST (INIT_LIST)
 void		init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp);
 
-// EXECUTING
+//EXECUTE ONE OR MORE COMMAND (EXECUTING)
 void		executing(t_arg *arg);
-//  utils
+
+//(EXECUTING_UTILS)
 char		*ft_strjoin_path(char *path, char *cmd);
 char		*ft_which(char **paths, char *cmd);
 int			nb_cmd(t_cmd *cmd);
-//  exec_one_cmd
+
+//(EXEC_ONE_CMD)
 bool		handle_redir_one_cmd(t_arg *arg);
 void		exec_one_cmd(t_arg *arg);
 void		handle_one_cmd(t_arg *arg);
-//  exec_multi_cmd
+
+//(EXEC_MULTI_CMD)
 bool		handle_redir_multi_cmd(t_arg *arg, t_cmd *cmd, int cmd_no);
 bool		ft_pipe(t_arg *arg, t_cmd *cmd, int cmd_no);
 void		exec_cmd(t_arg *arg, t_cmd *cmd, int cmd_no);
 void		wait_childs(t_arg *arg, t_cmd *cmd);
 void		handle_multiple_cmd(t_arg *arg, t_cmd *cmd);
-//  handle_redir
+
+//(HANDLE_REDIR)
 int			nb_redir_input(t_cmd *cmd);
 int			nb_redir_output(t_cmd *cmd);
 void		read_input(int tmp_fd, char *lim_lr);
 int			open_hd(t_cmd *cmd, int i);
 int			handle_redir_input(t_cmd *cmd);
 int			handle_redir_output(t_cmd *cmd);
-//  handle_builtins
+
+//(HANDLE_BUILTINS)
 int			isbuiltins(t_arg *arg);
 bool		handle_builtins(t_arg *arg, t_cmd *cmd);
 
-// BUILTINS
+/************** BUILTINS ***************/
+
+//EXIT (BUILTIN_EXIT)
 void		free_tab(char **tab);
 void		free_lst(t_tmp_list *lst);
 void		free_cmd_lst(t_cmd *lst);
 void		builtin_exit(t_arg *arg, char **argv, bool builtin);
+
+//(BUILTIN_ECHO)
 void		builtin_echo(t_arg *arg, char **argv, int fd);
 
-void		builtin_env(t_arg *arg, char **argv, int fd);
+//(BUILTIN_PWD)
 void		builtin_pwd(t_arg *arg, int fd);
+
+//(BULTIN_CD)
 void		builtin_cd(t_arg *arg, char **argv);
+
+//(BUILTIN_ENV)
+void		builtin_env(t_arg *arg, char **argv, int fd);
+
+//(BUILTIN_EXPORT)
 void		rewrite_evar(t_arg *arg, char *name, char *content);
 void		builtin_export(t_arg *arg, char **argv, int fd);
+
+//(BUILTIN_UNSET)
 void		builtin_unset(t_arg *arg, char **argv);
 
+//(BUILTIN_UTILS)
 char		**find_var(char **envp, char *to_find);
 
 #endif

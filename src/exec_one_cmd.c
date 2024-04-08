@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/06 19:56:10 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:54:10 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	handle_one_cmd(t_arg *arg)
 	if (handle_builtins(arg, arg->cmd_list))
 		return ;
 	arg->cmd_list->cmd_path = ft_which(arg->paths,
-		arg->cmd_list->argv[0]);
+			arg->cmd_list->argv[0]);
 	if (!arg->cmd_list->cmd_path)
 	{
 		arg->exit_code = INVALID_CMD;

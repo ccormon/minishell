@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 11:03:42 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:49:28 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*ft_strjoin_path(char *path, char *cmd)
 	return (cmd_path);
 }
 
-// what if there is no paths ? -> NULL
 char	*ft_which(char **paths, char *cmd)
 {
 	char	*cmd_path;
@@ -42,8 +41,8 @@ char	*ft_which(char **paths, char *cmd)
 			return (NULL);
 	}
 	i = 0;
-	if (!paths)			// changed to handle when env -i 
-		return (NULL);	// 
+	if (!paths)
+		return (NULL);
 	while (paths[i])
 	{
 		cmd_path = ft_strjoin_path(paths[i++], cmd);

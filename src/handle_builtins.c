@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:15:20 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/07 20:07:18 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:49:37 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	handle_builtins(t_arg *arg, t_cmd *cmd)
 {
 	int	code;
 
-	if (!arg->cmd_list->output_redir)
+	if (!arg->cmd_list->output_redir[0])
 		arg->cmd_list->output_fd = STDOUT_FILENO;
 	code = isbuiltins(arg);
 	if (code == 0)

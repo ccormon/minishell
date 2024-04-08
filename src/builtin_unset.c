@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:50:20 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 10:34:30 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 11:49:40 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	builtin_unset(t_arg *arg, char **argv)
 
 	i = 0;
 	arg->exit_code = 0;
-	if (argv[1] && arg->nb_cmd == 1)
+	if (argv[1])
 	{
 		while (argv[++i])
 		{

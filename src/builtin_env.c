@@ -6,12 +6,21 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:01:38 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/07 19:20:17 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:09:15 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: builtin_env
+ * ----------------------
+ * Executes the 'env' built-in command.
+ *
+ * arg:   Pointer to a structure containing command arguments and settings.
+ * argv:  Array of command arguments.
+ * fd:    File descriptor for output.
+ */
 void	builtin_env(t_arg *arg, char **argv, int fd)
 {
 	int	i;

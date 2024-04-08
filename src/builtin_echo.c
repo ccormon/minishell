@@ -6,13 +6,21 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:30:30 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/07 20:40:15 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:08:46 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// problem when redirecting in another file maybe the fd ?
+/*
+ * Function: builtin_echo
+ * -----------------------
+ * Executes the 'echo' built-in command.
+ *
+ * arg:   Pointer to a structure containing command arguments and settings.
+ * argv:  Array of command arguments.
+ * fd:    File descriptor for output.
+ */
 void	builtin_echo(t_arg *arg, char **argv, int fd)
 {
 	int		i;

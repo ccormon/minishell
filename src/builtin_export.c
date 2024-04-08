@@ -6,12 +6,22 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 10:51:28 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 10:05:48 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:12:31 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: find_var
+ * -------------------
+ * Finds the environment variable with the specified name.
+ *
+ * envp:    Pointer to the array of environment variables.
+ * to_find: Name of the environment variable to find.
+ *
+ * returns: Pointer to the environment variable if found; otherwise, NULL.
+ */
 char	**find_var(char **envp, char *to_find)
 {
 	int	i;
@@ -32,6 +42,14 @@ char	**find_var(char **envp, char *to_find)
 	return (NULL);
 }
 
+/*
+ * Function: exec_export
+ * ----------------------
+ * Executes the 'export' built-in command to add or modify an environment var.
+ *
+ * arg: Pointer to a structure containing command arguments and settings.
+ * str: String containing the name and value of the environment variable.
+ */
 static void	exec_export(t_arg *arg, char *str)
 {
 	int		i;
@@ -61,6 +79,15 @@ static void	exec_export(t_arg *arg, char *str)
 	free(name);
 }
 
+/*
+ * Function: builtin_export
+ * -------------------------
+ * Executes the 'export' built-in command to set or modify environment variables.
+ *
+ * arg:  Pointer to a structure containing command arguments and settings.
+ * argv: Array of command arguments.
+ * fd:   File descriptor for output.
+ */
 void	builtin_export(t_arg *arg, char **argv, int fd)
 {
 	int	i;

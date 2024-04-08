@@ -6,13 +6,23 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:04:59 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 10:05:59 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:15:36 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	create_new_var(t_arg *arg, char *name, char *content)
+/*
+ * Function: create_new_var
+ * -------------------------
+ * Creates a new environment variable with the given name and content and adds 
+ * it to the environment.
+ *
+ * arg:     Pointer to a structure containing command arguments and settings.
+ * name:    Name of the environment variable.
+ * content: Content of the environment variable.
+ */
+static void	create_new_var(t_arg *arg, char *name, char *content)
 {
 	int		i;
 	int		len_tab;
@@ -31,7 +41,16 @@ void	create_new_var(t_arg *arg, char *name, char *content)
 	arg->envp = tmp_tab;
 }
 
-void	fill_old_var(char **var, char *name, char *content)
+/*
+ * Function: fill_old_var
+ * -----------------------
+ * Updates the content of an existing environment variable.
+ *
+ * var:     Pointer to the environment variable.
+ * name:    Name of the environment variable.
+ * content: Content of the environment variable.
+ */
+static void	fill_old_var(char **var, char *name, char *content)
 {
 	int		i;
 	int		j;
@@ -52,6 +71,16 @@ void	fill_old_var(char **var, char *name, char *content)
 	*var = tmp_str;
 }
 
+/*
+ * Function: rewrite_evar
+ * -----------------------
+ * Rewrites an environment variable with the given name and content.
+ * If the variable does not exist, it creates a new one.
+ *
+ * arg:     Pointer to a structure containing command arguments and settings.
+ * name:    Name of the environment variable.
+ * content: Content of the environment variable.
+ */
 void	rewrite_evar(t_arg *arg, char *name, char *content)
 {
 	char	**var;

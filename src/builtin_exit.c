@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 10:05:55 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:11:26 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+/*
+ * Function: free_lst
+ * -------------------
+ * Frees the memory allocated for the lexing list.
+ *
+ * lst: Pointer to the head of the lexing list.
+ */
 void	free_lst(t_tmp_list *lst)
 {
 	t_tmp_list	*new;
@@ -47,6 +54,13 @@ void	free_lst(t_tmp_list *lst)
 	}
 }
 
+/*
+ * Function: free_cmd_lst
+ * -----------------------
+ * Frees the memory allocated for the command list.
+ *
+ * lst: Pointer to the head of the command list.
+ */
 void	free_cmd_lst(t_cmd *lst)
 {
 	t_cmd	*new;
@@ -65,6 +79,16 @@ void	free_cmd_lst(t_cmd *lst)
 	}
 }
 
+/*
+ * Function: get_exit_code
+ * ------------------------
+ * Retrieves the exit code from the arguments provided to the 'exit' built-in.
+ *
+ * arg:   Pointer to a structure containing command arguments and settings.
+ * argv:  Array of command arguments.
+ *
+ * returns: True if the exit code is successfully retrieved; otherwise, false.
+ */
 bool	get_exit_code(t_arg *arg, char **argv)
 {
 	if (argv[1])
@@ -86,6 +110,15 @@ bool	get_exit_code(t_arg *arg, char **argv)
 	return (true);
 }
 
+/*
+ * Function: builtin_exit
+ * -----------------------
+ * Executes the 'exit' built-in command.
+ *
+ * arg:      Pointer to a structure containing command arguments and settings.
+ * argv:     Array of command arguments.
+ * builtin:  Indicates whether the 'exit' command is invoked as a built-in.
+ */
 void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 {
 	if (arg->nb_cmd <= 1)

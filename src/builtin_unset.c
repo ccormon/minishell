@@ -6,13 +6,20 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:50:20 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 10:05:52 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:14:01 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	shift_tab(char **tab)
+/*
+ * Function: shift_tab
+ * --------------------
+ * Shifts all elements in a string array by one position to the left.
+ *
+ * tab: Pointer to the string array to be shifted.
+ */
+static void	shift_tab(char **tab)
 {
 	int	i;
 
@@ -28,7 +35,15 @@ void	shift_tab(char **tab)
 	tab[i] = NULL;
 }
 
-void	exec_unset(t_arg *arg, char *str)
+/*
+ * Function: exec_unset
+ * ---------------------
+ * Executes the 'unset' built-in command to remove an environment variable.
+ *
+ * arg: Pointer to a structure containing command arguments and settings.
+ * str: Name of the environment variable to unset.
+ */
+static void	exec_unset(t_arg *arg, char *str)
 {
 	int		i;
 	char	*name;
@@ -45,6 +60,14 @@ void	exec_unset(t_arg *arg, char *str)
 	free(name);
 }
 
+/*
+ * Function: builtin_unset
+ * ------------------------
+ * Executes the 'unset' built-in command to remove environment variables.
+ *
+ * arg:  Pointer to a structure containing command arguments and settings.
+ * argv: Array of command arguments.
+ */
 void	builtin_unset(t_arg *arg, char **argv)
 {
 	int	i;

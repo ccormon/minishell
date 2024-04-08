@@ -6,13 +6,21 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:55:56 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 09:40:50 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/08 10:07:57 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <dirent.h>
 
+/*
+ * Function: exec_cd
+ * -----------------
+ * Executes the 'cd' built-in command.
+ *
+ * arg:  Pointer to a structure containing command arguments and settings.
+ * path: Path to change the directory to.
+ */
 static void	exec_cd(t_arg *arg, char *path)
 {
 	DIR		*dir;
@@ -41,6 +49,14 @@ static void	exec_cd(t_arg *arg, char *path)
 	}
 }
 
+/*
+ * Function: builtin_cd
+ * ---------------------
+ * Executes the 'cd' built-in command.
+ *
+ * arg:   Pointer to a structure containing command arguments and settings.
+ * argv:  Array of command arguments.
+ */
 void	builtin_cd(t_arg *arg, char **argv)
 {
 	arg->exit_code = 0;

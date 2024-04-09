@@ -6,22 +6,11 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 15:27:31 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/09 11:54:33 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-bool	handle_redir_one_cmd(t_arg *arg)
-{
-	arg->cmd_list->input_fd = handle_redir_input(arg->cmd_list);
-	if (arg->cmd_list->input_fd == -1)
-		return (false);
-	arg->cmd_list->output_fd = handle_redir_output(arg->cmd_list);
-	if (arg->cmd_list->output_fd == -1)
-		return (false);
-	return (true);
-}
 
 void	exec_one_cmd(t_arg *arg)
 {
@@ -50,7 +39,7 @@ void	exec_one_cmd(t_arg *arg)
 
 void	handle_one_cmd(t_arg *arg)
 {
-	if (!handle_redir_one_cmd(arg))
+	if (!handle_redir(arg->cmd_list))
 	{
 		arg->exit_code = GENERAL_ERR;
 		return ;

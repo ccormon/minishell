@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 15:26:33 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/09 11:53:58 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,15 @@ int	handle_redir_output(t_cmd *cmd)
 		i++;
 	}
 	return (final_fd);
+}
+
+bool	handle_redir(t_cmd *cmd)
+{
+	cmd->input_fd = handle_redir_input(cmd);
+	if (cmd->input_fd == -1)
+		return (false);
+	cmd->output_fd = handle_redir_output(cmd);
+	if (cmd->output_fd == -1)
+		return (false);
+	return (true);
 }

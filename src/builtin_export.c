@@ -6,11 +6,13 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 10:51:28 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 14:05:17 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:06:30 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 /*
  * Function: find_var
@@ -94,7 +96,7 @@ void	builtin_export(t_arg *arg, char **argv, int fd)
 	int	j;
 
 	i = 0;
-	arg->exit_code = 0;
+	arg->exit_code = EXIT_SUCCESS;
 	if (!argv[1])
 		builtin_env(arg, NULL, fd);
 	while (argv[++i])
@@ -106,8 +108,8 @@ void	builtin_export(t_arg *arg, char **argv, int fd)
 			return ;
 		if (argv[i][j] != '=' || (!ft_isalpha(argv[i][0]) && argv[i][0] != '_'))
 		{
-			ft_putstr_fd("export : not a valid identifier\n", 2);
-			arg->exit_code = 1;
+			ft_putstr_fd("export : not a valid identifier\n", STDERR_FILENO);
+			arg->exit_code = GENERAL_ERR;
 		}
 		else if (arg->nb_cmd == 1)
 			exec_export(arg, argv[i]);

@@ -6,11 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 11:52:15 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 10:39:30 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:09:58 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
 
 /*
  * Function: handle_signal
@@ -49,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_putstr_fd("Minishell cannot take arguments\n", 2);
+		ft_putstr_fd("Minishell cannot take arguments\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	signal(SIGINT, &handle_signal);

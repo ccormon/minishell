@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:01:38 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 11:49:58 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:04:02 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	builtin_env(t_arg *arg, char **argv, int fd)
 	if (argv && argv[1])
 	{
 		ft_putstr_fd("env : No such file or directory\n", 2);
-		arg->exit_code = 127;
+		arg->exit_code = INVALID_CMD;
 		return ;
 	}
 	while (arg->envp[i])
@@ -38,5 +38,5 @@ void	builtin_env(t_arg *arg, char **argv, int fd)
 		ft_putstr_fd("\n", fd);
 		i++;
 	}
-	arg->exit_code = 0;
+	arg->exit_code = EXIT_SUCCESS;
 }

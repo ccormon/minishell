@@ -6,11 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:30:30 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 10:08:46 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:04:38 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
 
 /*
  * Function: builtin_echo
@@ -43,7 +44,7 @@ void	builtin_echo(t_arg *arg, char **argv, int fd)
 		if (argv[i])
 			ft_putstr_fd(" ", fd);
 	}
-	arg->exit_code = 0;
+	arg->exit_code = EXIT_SUCCESS;
 	if (!new_line)
 		return ;
 	ft_putstr_fd("\n", fd);

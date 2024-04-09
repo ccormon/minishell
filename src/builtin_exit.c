@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 11:50:13 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:05:40 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ bool	get_exit_code(t_arg *arg, char **argv)
 		if (!ft_islong(argv[1]))
 		{
 			ft_putstr_fd("exit : numeric argument required\n", 2);
-			arg->exit_code = 2;
+			arg->exit_code = BUILTIN_KO;
 		}
 		else if (argv[2])
 		{
 			ft_putstr_fd("exit : too many arguments\n", 2);
-			arg->exit_code = 1;
+			arg->exit_code = GENERAL_ERR;
 			return (false);
 		}
 		else

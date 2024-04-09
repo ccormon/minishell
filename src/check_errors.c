@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:00:43 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/03 13:09:59 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/09 11:08:02 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <unistd.h>
 
 /*
  * Function: print_error
@@ -24,8 +25,8 @@
  */
 static bool	print_error(t_arg *arg, char *str)
 {
-	ft_putstr_fd(str, 2);
-	arg->exit_code = 1;
+	ft_putstr_fd(str, STDERR_FILENO);
+	arg->exit_code = GENERAL_ERR;
 	return (false);
 }
 

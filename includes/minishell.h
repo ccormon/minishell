@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/08 15:54:45 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/09 11:15:00 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 /*************** DEFINE ****************/
 
 # define GENERAL_ERR 1
+# define BUILTIN_KO 2
 # define EXEC_CMD_KO 126
 # define INVALID_CMD 127
 # define TMP_FILE "/tmp/tmp"

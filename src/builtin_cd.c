@@ -6,12 +6,13 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:55:56 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 11:49:53 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:04:18 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <dirent.h>
+#include <stdlib.h>
 
 /*
  * Function: exec_cd
@@ -27,15 +28,15 @@ static void	exec_cd(t_arg *arg, char *path)
 
 	if (!path)
 	{
-		ft_putstr_fd("cd : HOME not set\n", 2);
-		arg->exit_code = 1;
+		ft_putstr_fd("cd : HOME not set\n", STDERR_FILENO);
+		arg->exit_code = GENERAL_ERR;
 		return ;
 	}
 	dir = opendir(path);
 	if (!dir)
 	{
 		perror("cd");
-		arg->exit_code = 1;
+		arg->exit_code = GENERAL_ERR;
 		return ;
 	}
 	closedir(dir);
@@ -59,14 +60,14 @@ static void	exec_cd(t_arg *arg, char *path)
  */
 void	builtin_cd(t_arg *arg, char **argv)
 {
-	arg->exit_code = 0;
+	arg->exit_code = EXIT_SUCCESS;
 	if (!argv[1])
 		exec_cd(arg, find_str(arg->envp, "HOME=", 5));
 	else if (!argv[2])
 		exec_cd(arg, argv[1]);
 	else
 	{
-		ft_putstr_fd("cd : too many arguments\n", 2);
-		arg->exit_code = 1;
+		ft_putstr_fd("cd : too many arguments\n", STDERR_FILENO);
+		arg->exit_code = GENERAL_ERR;
 	}
 }

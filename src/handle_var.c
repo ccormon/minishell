@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:49:13 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/09 11:16:18 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:14:52 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*get_var_content(t_arg *arg, char *str)
 	i = 0;
 	str++;
 	if (*str == '?')
-		return (ft_itoa(arg->exit_code)); //leak here
+		return (ft_itoa(arg->exit_code));
 	tmp = malloc(sizeof(char) * (ft_strlen(str) + 2));
 	while (*str && (ft_isalnum(*str) || *str == '_'))
 	{
@@ -44,7 +44,7 @@ static char	*get_var_content(t_arg *arg, char *str)
 	tmp[i + 1] = '\0';
 	content = find_str(arg->envp, tmp, ft_strlen(tmp));
 	free(tmp);
-	return (content);
+	return (ft_strdup(content));
 }
 
 /*
@@ -131,12 +131,14 @@ static int	create_new_node(t_tmp_list **list)
 int	replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i)
 {
 	int		len;
+	int		len_replace;
 	char	*replace;
 
 	if (ft_isspace((*list)->content[i + 1]) || (*list)->content[i + 1] == '\0'
 		|| (*list)->content[i + 1] == '\"' || (*list)->content[i + 1] == '\'' )
 		return (++i);
 	replace = get_var_content(arg, (*list)->content + i);
+	len_replace = ft_strlen(replace);
 	if (!replace)
 	{
 		len = 1;
@@ -150,6 +152,7 @@ int	replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i)
 	else
 		(*list)->content = rewrite_str((*list)->content, replace, i);
 	if (state == 0 && (ft_strrchr(replace, ' ') || ft_strrchr(replace, '\t')))
-		return (create_new_node(list));
-	return (i + ft_strlen(replace));
+		return (free(replace), create_new_node(list));
+	free(replace);
+	return (i + len_replace);
 }

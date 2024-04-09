@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/09 11:54:33 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/09 18:59:15 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	handle_one_cmd(t_arg *arg)
 	if (!arg->cmd_list->cmd_path)
 	{
 		arg->exit_code = INVALID_CMD;
+		ft_putstr_fd(arg->cmd_list->argv[0], STDERR_FILENO);
+		ft_putstr_fd(" : command not found\n", STDERR_FILENO);
 		return ;
 	}
 	exec_one_cmd(arg);

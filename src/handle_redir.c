@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/09 11:53:58 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/09 20:12:33 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	nb_redir_input(t_cmd *cmd)
+int	nb_redir_input(t_cmd *cmd) // merge this two functions together
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int	nb_redir_input(t_cmd *cmd)
 	return (i);
 }
 
-int nb_redir_output(t_cmd *cmd)
+int	nb_redir_output(t_cmd *cmd) // merge this two functions together
 {
 	int	i;
 
@@ -105,7 +105,7 @@ int	handle_redir_input(t_cmd *cmd)
 		if (i != 0)
 			close(final_fd);
 		if (tmp_fd == -1)
-			return (invalid_fd(cmd->input_file[i], cmd->input_redir[i] == 1));
+			return (invalid_fd(cmd->input_file[i], cmd->input_redir[i])); // changed the "== 1" -> would never be 2
 		final_fd = tmp_fd;
 		i++;
 	}

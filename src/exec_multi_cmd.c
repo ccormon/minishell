@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/09 15:47:07 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/09 20:12:40 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_pipe(t_arg *arg, t_cmd *cmd, bool redir_ok, int cmd_no)
 {
-	(void)redir_ok;
 	if (cmd_no == 0)
 	{
 		pipe(arg->pipe_fd[0]);
@@ -79,7 +78,7 @@ void	handle_multiple_cmd(t_arg *arg, t_cmd *cmd)
 	cmd_no = 0;
 	while (cmd_no < arg->nb_cmd)
 	{
-		redir_ok = handle_redir(cmd);
+		redir_ok = handle_redir(cmd); //what if there is an error in the redirs, you do the next step ?
 		ft_pipe(arg, cmd, redir_ok, cmd_no);
 		cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
 		exec_cmd(arg, cmd, redir_ok, cmd_no);

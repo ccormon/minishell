@@ -3,91 +3,116 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/09 20:12:40 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:43:26 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_pipe(t_arg *arg, t_cmd *cmd, bool redir_ok, int cmd_no)
+void	ft_pipe(t_arg *arg, t_cmd *cmd)
 {
-	if (cmd_no == 0)
+	if (arg->cmd_list == cmd)
 	{
-		pipe(arg->pipe_fd[0]);
-		if (redir_ok && cmd->input_fd != STDIN_FILENO)
-			arg->pipe_fd[1][0] = cmd->input_fd;
-		else if (redir_ok)
-			arg->pipe_fd[1][0] = dup(STDIN_FILENO);
-		return ;
+		pipe(arg->pipe_fd);
+		if (cmd->input_fd != STDIN_FILENO)
+			arg->cmd_read_fd = cmd->input_fd;
+		else
+			arg->cmd_read_fd = dup(STDIN_FILENO);
+		if (cmd->output_fd != STDOUT_FILENO)
+		{
+			close(arg->pipe_fd[1]);
+			arg->pipe_fd[1] = cmd->output_fd;
+		}
 	}
-	if (cmd_no == arg->nb_cmd - 1)
+	else if (!cmd->next)
 	{
-		close(arg->pipe_fd[(cmd_no + 1) % 2][1]);
-		close(arg->pipe_fd[cmd_no % 2][0]);
-		if (redir_ok && cmd->output_fd != STDOUT_FILENO)
-			arg->pipe_fd[cmd_no % 2][1] = cmd->output_fd;
-		else if (redir_ok)
-			arg->pipe_fd[cmd_no % 2][1] = dup(STDOUT_FILENO);
-		return ;
+		close(arg->cmd_read_fd);
+		arg->cmd_read_fd = arg->pipe_fd[1];
+		if (cmd->output_fd != STDOUT_FILENO)
+			arg->pipe_fd[1] = cmd->output_fd;
+		else
+			arg->pipe_fd[1] = dup(STDOUT_FILENO);
 	}
-	close(arg->pipe_fd[(cmd_no + 1) % 2][1]);
-	close(arg->pipe_fd[cmd_no % 2][0]);
-	pipe(arg->pipe_fd[cmd_no % 2]);
+	else
+	{
+		close(arg->cmd_read_fd);
+		arg->cmd_read_fd = arg->pipe_fd[1];
+		close(arg->pipe_fd[0]);
+		pipe(arg->pipe_fd);
+	}
 }
 
-void	exec_cmd(t_arg *arg, t_cmd *cmd, bool redir_ok, int cmd_no)
+void	exit_fork(t_arg *arg, int exit_code)
+{
+	free(arg->prompt);
+	free(arg->pwd);
+	free(arg->whole_line);
+	free_tab(arg->envp);
+	free_tab(arg->paths);
+	free_lst(arg->lexing);
+	free_cmd_lst(arg->cmd_list);
+	exit(exit_code);
+}
+
+void	exec_cmd(t_arg *arg, t_cmd *cmd)
 {
 	cmd->pid_child = fork();
-	if (cmd->pid_child == 0 && redir_ok)
+	if (cmd->pid_child == 0)
 	{
-		dup2(arg->pipe_fd[(cmd_no + 1) % 2][0], STDIN_FILENO);
-		// if (cmd->input_fd != STDIN_FILENO)
-		close(arg->pipe_fd[(cmd_no + 1) % 2][0]);
-		dup2(arg->pipe_fd[cmd_no % 2][1], STDOUT_FILENO);
-		// if (cmd->output_fd != STDOUT_FILENO)
-		close(arg->pipe_fd[cmd_no % 2][1]);
-		close(arg->pipe_fd[cmd_no % 2][0]);
+		dup2(arg->cmd_read_fd, STDIN_FILENO);
+		close(arg->cmd_read_fd);
+		dup2(arg->pipe_fd[1], STDOUT_FILENO);
+		close(arg->pipe_fd[1]);
+		close(arg->pipe_fd[0]);
 		if (cmd->cmd_path)
 			execve(cmd->cmd_path, cmd->argv, arg->envp);
-		exit(GENERAL_ERR);
+		exit_fork(arg, EXEC_CMD_KO);
 	}
-	else if (cmd->pid_child == 0 && !redir_ok)
-		exit(GENERAL_ERR);
 }
 
 void	wait_childs(t_arg *arg, t_cmd *cmd)
 {
 	while (cmd)
 	{
-		waitpid(cmd->pid_child, &cmd->status, 0);
-		if (WEXITSTATUS(cmd->status) != 0)
-			arg->exit_code = WEXITSTATUS(cmd->status);
+		if (!ft_isbuiltin(cmd))
+		{
+			waitpid(cmd->pid_child, &cmd->status, 0);
+			if (WEXITSTATUS(cmd->status) != 0)
+				arg->exit_code = WEXITSTATUS(cmd->status);
+		}
 		cmd = cmd->next;
 	}
 }
 
 void	handle_multiple_cmd(t_arg *arg, t_cmd *cmd)
 {
-	t_cmd	*tmp;
 	bool	redir_ok;
-	int		cmd_no;
 
-	cmd_no = 0;
-	while (cmd_no < arg->nb_cmd)
+	while (cmd)
 	{
-		redir_ok = handle_redir(cmd); //what if there is an error in the redirs, you do the next step ?
-		ft_pipe(arg, cmd, redir_ok, cmd_no);
-		cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
-		exec_cmd(arg, cmd, redir_ok, cmd_no);
-		tmp = cmd;
+		redir_ok = handle_redir(cmd);
+		ft_pipe(arg, cmd);
+		if (redir_ok)
+		{
+			cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
+			if (ft_isbuiltin(cmd))
+			{
+				if (cmd->output_fd == STDOUT_FILENO)
+					handle_builtins(arg, cmd, arg->pipe_fd[1]);
+				else
+				{
+					handle_builtins(arg, cmd, cmd->output_fd);
+					close(cmd->output_fd);
+				}
+			}
+			else
+				exec_cmd(arg, cmd);
+		}
 		cmd = cmd->next;
-		cmd_no++;
 	}
-	if (redir_ok && tmp->output_fd != STDOUT_FILENO)
-		close(arg->pipe_fd[(cmd_no + 1) % 2][1]);
-	close(arg->pipe_fd[cmd_no % 2][0]);
-	wait_childs(arg, cmd);
+	close(arg->cmd_read_fd);
+	wait_childs(arg, arg->cmd_list);
 }

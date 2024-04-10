@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/09 14:41:46 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:33:12 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_cmd
 	int		*output_redir; // init to NULL; > = 1; >> = 2;
 	char	**output_file; // init to NULL
 	int		output_fd;
-	bool	builtin;
 	t_cmd	*next;
 }	t_cmd;
 
@@ -89,13 +88,13 @@ typedef struct s_arg
 	char		*prompt;
 	char		*pwd;
 	char		*whole_line;
-	char		**arg_tab;
 	char		**envp;
 	char		**paths;
 	t_tmp_list	*lexing;
 	int			nb_cmd;
 	t_cmd		*cmd_list;
-	int			pipe_fd[2][2];
+	int			pipe_fd[2];
+	int			cmd_read_fd;
 }	t_arg;
 
 /************** FONCTIONS **************/
@@ -149,8 +148,8 @@ void		exec_one_cmd(t_arg *arg);
 void		handle_one_cmd(t_arg *arg);
 
 //(EXEC_MULTI_CMD)
-void		ft_pipe(t_arg *arg, t_cmd *cmd, bool redir_ok, int cmd_no);
-void		exec_cmd(t_arg *arg, t_cmd *cmd, bool redir_ok, int cmd_no);
+void		ft_pipe(t_arg *arg, t_cmd *cmd);
+void		exec_cmd(t_arg *arg, t_cmd *cmd);
 void		wait_childs(t_arg *arg, t_cmd *cmd);
 void		handle_multiple_cmd(t_arg *arg, t_cmd *cmd);
 
@@ -164,8 +163,8 @@ int			handle_redir_output(t_cmd *cmd);
 bool		handle_redir(t_cmd *cmd);
 
 //(HANDLE_BUILTINS)
-int			isbuiltins(t_arg *arg);
-bool		handle_builtins(t_arg *arg, t_cmd *cmd);
+bool		ft_isbuiltin(t_cmd *cmd);
+bool		handle_builtins(t_arg *arg, t_cmd *cmd, int output_fd);
 
 /************** BUILTINS ***************/
 

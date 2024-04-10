@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/09 18:59:15 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:44:54 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	exec_one_cmd(t_arg *arg)
 			close(arg->cmd_list->output_fd);
 		}
 		execve(arg->cmd_list->cmd_path, arg->cmd_list->argv, arg->envp);
+		// close tout ce qu'il faut close
+		// free tout ce qu'il faut free
+		exit(EXEC_CMD_KO);
 	}
 	if (arg->cmd_list->input_redir[0])
 		close(arg->cmd_list->input_fd);
@@ -44,7 +47,7 @@ void	handle_one_cmd(t_arg *arg)
 		arg->exit_code = GENERAL_ERR;
 		return ;
 	}
-	if (handle_builtins(arg, arg->cmd_list))
+	if (handle_builtins(arg, arg->cmd_list, arg->cmd_list->output_fd))
 		return ;
 	arg->cmd_list->cmd_path = ft_which(arg->paths,
 			arg->cmd_list->argv[0]);

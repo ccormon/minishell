@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:17:50 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/10 17:02:02 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/11 11:16:43 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ void	executing(t_arg *arg)
 	else if (arg->nb_cmd == 1)
 		handle_one_cmd(arg);
 	else if (arg->nb_cmd > 1)
-		handle_multiple_cmd(arg, arg->cmd_list);
+		handle_multi_cmd(arg, arg->cmd_list);
 }

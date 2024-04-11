@@ -6,43 +6,64 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/10 18:43:26 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/11 15:28:36 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	ft_pipe_first_cmd(t_arg *arg, t_cmd *cmd)
+{
+	pipe(arg->pipe_fd);
+	if (cmd->input_fd != STDIN_FILENO)
+		arg->cmd_read_fd = cmd->input_fd;
+	else
+		arg->cmd_read_fd = dup(STDIN_FILENO);
+	if (cmd->output_fd != STDOUT_FILENO)
+	{
+		close(arg->pipe_fd[1]);
+		arg->pipe_fd[1] = cmd->output_fd;
+	}
+}
+
+void	ft_pipe_last_cmd(t_arg *arg, t_cmd *cmd)
+{
+	close(arg->cmd_read_fd);
+	if (cmd->input_fd != STDIN_FILENO)
+		arg->cmd_read_fd = cmd->input_fd;
+	else
+		arg->cmd_read_fd = arg->pipe_fd[0];
+	close(arg->pipe_fd[1]);
+	if (cmd->output_fd != STDOUT_FILENO)
+		arg->pipe_fd[1] = cmd->output_fd;
+	else
+		arg->pipe_fd[1] = dup(STDOUT_FILENO);
+}
+
+void	ft_pipe_middle_cmd(t_arg *arg, t_cmd *cmd)
+{
+	close(arg->cmd_read_fd);
+	if (cmd->input_fd != STDIN_FILENO)
+		arg->cmd_read_fd = cmd->input_fd;
+	else
+		arg->cmd_read_fd = arg->pipe_fd[0];
+	close(arg->pipe_fd[1]);
+	pipe(arg->pipe_fd);
+	if (cmd->output_fd != STDOUT_FILENO)
+	{
+		close(arg->pipe_fd[1]);
+		arg->pipe_fd[1] = cmd->output_fd;
+	}
+}
+
 void	ft_pipe(t_arg *arg, t_cmd *cmd)
 {
 	if (arg->cmd_list == cmd)
-	{
-		pipe(arg->pipe_fd);
-		if (cmd->input_fd != STDIN_FILENO)
-			arg->cmd_read_fd = cmd->input_fd;
-		else
-			arg->cmd_read_fd = dup(STDIN_FILENO);
-		if (cmd->output_fd != STDOUT_FILENO)
-		{
-			close(arg->pipe_fd[1]);
-			arg->pipe_fd[1] = cmd->output_fd;
-		}
-	}
+		ft_pipe_first_cmd(arg, cmd);
 	else if (!cmd->next)
-	{
-		close(arg->cmd_read_fd);
-		arg->cmd_read_fd = arg->pipe_fd[1];
-		if (cmd->output_fd != STDOUT_FILENO)
-			arg->pipe_fd[1] = cmd->output_fd;
-		else
-			arg->pipe_fd[1] = dup(STDOUT_FILENO);
-	}
+		ft_pipe_last_cmd(arg, cmd);
 	else
-	{
-		close(arg->cmd_read_fd);
-		arg->cmd_read_fd = arg->pipe_fd[1];
-		close(arg->pipe_fd[0]);
-		pipe(arg->pipe_fd);
-	}
+		ft_pipe_middle_cmd(arg, cmd);
 }
 
 void	exit_fork(t_arg *arg, int exit_code)
@@ -87,7 +108,7 @@ void	wait_childs(t_arg *arg, t_cmd *cmd)
 	}
 }
 
-void	handle_multiple_cmd(t_arg *arg, t_cmd *cmd)
+void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 {
 	bool	redir_ok;
 
@@ -97,6 +118,8 @@ void	handle_multiple_cmd(t_arg *arg, t_cmd *cmd)
 		ft_pipe(arg, cmd);
 		if (redir_ok)
 		{
+			// dprintf(2, "box_fd = %d\tpipe_fd[1] = %d\tpipe_fd[0] = %d\n",
+			// 	arg->cmd_read_fd, arg->pipe_fd[1], arg->pipe_fd[0]);
 			cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
 			if (ft_isbuiltin(cmd))
 			{
@@ -111,8 +134,12 @@ void	handle_multiple_cmd(t_arg *arg, t_cmd *cmd)
 			else
 				exec_cmd(arg, cmd);
 		}
+		else
+			arg->exit_code = GENERAL_ERR;
 		cmd = cmd->next;
 	}
 	close(arg->cmd_read_fd);
+	close(arg->pipe_fd[0]);
+	close(arg->pipe_fd[1]);
 	wait_childs(arg, arg->cmd_list);
 }

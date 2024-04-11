@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/10 18:33:12 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/11 13:09:51 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void		handle_one_cmd(t_arg *arg);
 void		ft_pipe(t_arg *arg, t_cmd *cmd);
 void		exec_cmd(t_arg *arg, t_cmd *cmd);
 void		wait_childs(t_arg *arg, t_cmd *cmd);
-void		handle_multiple_cmd(t_arg *arg, t_cmd *cmd);
+void		handle_multi_cmd(t_arg *arg, t_cmd *cmd);
 
 //(HANDLE_REDIR)
 int			nb_redir_input(t_cmd *cmd);

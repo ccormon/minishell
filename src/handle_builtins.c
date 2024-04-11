@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:15:20 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/10 16:15:01 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/11 13:09:46 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,12 @@ bool	ft_isbuiltin(t_cmd *cmd)
 
 bool	handle_builtins(t_arg *arg, t_cmd *cmd, int output_fd)
 {
-	if (!cmd->output_redir[0])
-		cmd->output_fd = STDOUT_FILENO;
 	if (ft_strcmp(cmd->argv[0], "echo"))
 		builtin_echo(arg, cmd->argv, output_fd);
 	else if (ft_strcmp(cmd->argv[0], "cd"))
 		builtin_cd(arg, cmd->argv);
 	else if (ft_strcmp(cmd->argv[0], "pwd"))
-		builtin_pwd(arg, cmd->output_fd);
+		builtin_pwd(arg, output_fd);
 	else if (ft_strcmp(cmd->argv[0], "export"))
 		builtin_export(arg, cmd->argv, output_fd);
 	else if (ft_strcmp(cmd->argv[0], "unset"))

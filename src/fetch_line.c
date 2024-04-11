@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fetch_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:35:39 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 10:38:51 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:31:36 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	**ft_tabdup(char **src)
 /*
  * Function: init_arg
  * -------------------
- * Initializes the argument structure with environment variables 
+ * Initializes the argument structure with environment variables
  * and other settings.
  *
  * arg:   Pointer to the argument structure to be initialized.
@@ -78,7 +78,6 @@ static void	init_arg(t_arg *arg, char **envp)
 	arg->whole_line = NULL;
 	arg->paths = NULL;
 	arg->exit_code = 0;
-	arg->nb_cmd = 0;
 	arg->envp = ft_tabdup(envp);
 	arg->pwd = getcwd(NULL, 0);
 	arg->prompt = get_prompt(arg->envp);
@@ -105,6 +104,7 @@ int	fetch_line(char **envp)
 	while (1)
 	{
 		arg.lexing = NULL;
+		arg.nb_cmd = 0;
 		arg.whole_line = readline(arg.prompt);
 		add_history(arg.whole_line);
 		if (!arg.whole_line)
@@ -117,6 +117,7 @@ int	fetch_line(char **envp)
 		}
 		free(arg.whole_line);
 	}
+	dprintf(2, "ho ho on break !\n");
 	builtin_exit(&arg, NULL, false);
 	return (arg.exit_code);
 }

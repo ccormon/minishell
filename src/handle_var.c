@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   handle_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:49:13 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/12 13:17:52 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:27:04 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdio.h>
 
 /*
  * Function: get_var_content
@@ -44,13 +45,8 @@ static char	*get_var_content(t_arg *arg, char *str)
 	tmp[i + 1] = '\0';
 	content = find_str(arg->envp, tmp, ft_strlen(tmp));
 	free(tmp);
-	// if (content[0] == '\0')
-	// {
-	// 	content = malloc(2 * sizeof(char));
-	// 	content[0] = ' ';
-	// 	content[1] = '\0';
-	// 	return (content);
-	// }
+	if (!content || !*content)
+		return (NULL);
 	return (ft_strdup(content));
 }
 
@@ -145,10 +141,8 @@ int	replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i)
 		|| (*list)->content[i + 1] == '\"' || (*list)->content[i + 1] == '\'' )
 		return (++i);
 	replace = get_var_content(arg, (*list)->content + i);
-	len_replace = ft_strlen(replace);
-	if (!replace || !(*replace))
+	if (!replace)
 	{
-		dprintf(2, "hello there\n");
 		len = 1;
 		while ((*list)->content[len + i]
 			&& (ft_isalnum((*list)->content[len + i])
@@ -157,8 +151,8 @@ int	replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i)
 		shift_str((*list)->content + i, len);
 		return (i);
 	}
-	else
-		(*list)->content = rewrite_str((*list)->content, replace, i);
+	len_replace = ft_strlen(replace);
+	(*list)->content = rewrite_str((*list)->content, replace, i);
 	if (state == 0 && (ft_strrchr(replace, ' ') || ft_strrchr(replace, '\t')))
 		return (free(replace), create_new_node(list));
 	free(replace);

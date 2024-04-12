@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:07:26 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 14:15:34 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:26:57 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,11 @@ bool	parse_line(t_arg *arg)
 		return (false);
 	lexing(arg, arg->whole_line);
 	init_cmd_list(arg, &arg->cmd_list, arg->lexing);
+	if (!arg->cmd_list->argv[0])
+	{
+		free_lst(arg->lexing);
+		free_cmd_lst(arg->cmd_list);
+		return (false);
+	}
 	return (true);
 }

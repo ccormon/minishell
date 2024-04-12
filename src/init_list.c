@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:59:30 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/03 14:25:12 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:27:07 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ void	init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp)
 	cmd_lstadd_back(cmd, cmd_lstnew(arg));
 	while (tmp)
 	{
+		if (!*tmp->content)
+			tmp = tmp->next;
+		if (!tmp)
+			break ;
 		if (tmp->token != TOKEN_WORD && tmp->token != TOKEN_PIPE)
 		{
 			fill_tab(tmp, *cmd, tmp->token);

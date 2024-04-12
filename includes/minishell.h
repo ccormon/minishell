@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 11:59:07 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:19:02 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ char		*ft_which(char **paths, char *cmd);
 int			nb_cmd(t_cmd *cmd);
 
 //(EXEC_ONE_CMD)
-void		exec_one_cmd(t_arg *arg);
+void		exec_one_cmd(t_arg *arg, t_cmd *cmd);
 void		handle_one_cmd(t_arg *arg);
 
 //(EXEC_MULTI_CMD)
@@ -152,6 +152,7 @@ void		ft_pipe(t_arg *arg, t_cmd *cmd);
 void		exec_cmd(t_arg *arg, t_cmd *cmd);
 void		wait_childs(t_arg *arg, t_cmd *cmd);
 void		handle_multi_cmd(t_arg *arg, t_cmd *cmd);
+void		exit_fork(t_arg *arg, int exit_code);
 
 //(HANDLE_REDIR)
 int			nb_redir_input(t_cmd *cmd);

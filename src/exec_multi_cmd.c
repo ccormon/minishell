@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 12:52:40 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:04:56 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,21 @@ void	exec_cmd(t_arg *arg, t_cmd *cmd)
 		dup2(arg->pipe_fd[1], STDOUT_FILENO);
 		close(arg->pipe_fd[1]);
 		close(arg->pipe_fd[0]);
-		if (cmd->cmd_path)
+		if (cmd->cmd_path && access(cmd->cmd_path, X_OK) == 0)
 			execve(cmd->cmd_path, cmd->argv, arg->envp);
 		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+		if (cmd->cmd_path && access(cmd->cmd_path, X_OK) != 0)
+		{
+			ft_putstr_fd(" : permission denied\n", STDERR_FILENO);
+			exit_fork(arg, EXEC_CMD_KO);
+		}
 		if (!cmd->cmd_path)
 		{
 			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
-			exit_fork(arg, 127);
+			exit_fork(arg, INVALID_CMD);
 		}
 		ft_putstr_fd(" : execution KO\n", STDERR_FILENO);
-		exit_fork(arg, 126);
+		exit_fork(arg, EXEC_CMD_KO);
 	}
 }
 

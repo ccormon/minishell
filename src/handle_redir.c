@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/11 15:35:03 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:55:15 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	handle_redir_input(t_cmd *cmd)
 		if (i != 0)
 			close(final_fd);
 		if (tmp_fd == -1)
-			return (invalid_fd(cmd->input_file[i], cmd->input_redir[i])); // changed the "== 1" -> would never be 2
+			return (invalid_fd(cmd->input_file[i], cmd->input_redir[i]));
 		final_fd = tmp_fd;
 		i++;
 	}

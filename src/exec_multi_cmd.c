@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/11 15:28:36 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 12:52:40 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	exit_fork(t_arg *arg, int exit_code)
 	free_tab(arg->paths);
 	free_lst(arg->lexing);
 	free_cmd_lst(arg->cmd_list);
+	rl_clear_history();
 	exit(exit_code);
 }
 
@@ -90,7 +91,14 @@ void	exec_cmd(t_arg *arg, t_cmd *cmd)
 		close(arg->pipe_fd[0]);
 		if (cmd->cmd_path)
 			execve(cmd->cmd_path, cmd->argv, arg->envp);
-		exit_fork(arg, EXEC_CMD_KO);
+		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+		if (!cmd->cmd_path)
+		{
+			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
+			exit_fork(arg, 127);
+		}
+		ft_putstr_fd(" : execution KO\n", STDERR_FILENO);
+		exit_fork(arg, 126);
 	}
 }
 
@@ -101,7 +109,7 @@ void	wait_childs(t_arg *arg, t_cmd *cmd)
 		if (!ft_isbuiltin(cmd))
 		{
 			waitpid(cmd->pid_child, &cmd->status, 0);
-			if (WEXITSTATUS(cmd->status) != 0)
+			if (cmd->cmd_path)
 				arg->exit_code = WEXITSTATUS(cmd->status);
 		}
 		cmd = cmd->next;
@@ -126,10 +134,7 @@ void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 				if (cmd->output_fd == STDOUT_FILENO)
 					handle_builtins(arg, cmd, arg->pipe_fd[1]);
 				else
-				{
 					handle_builtins(arg, cmd, cmd->output_fd);
-					close(cmd->output_fd);
-				}
 			}
 			else
 				exec_cmd(arg, cmd);

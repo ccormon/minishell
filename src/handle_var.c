@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:49:13 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/09 12:14:52 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:17:52 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ static char	*get_var_content(t_arg *arg, char *str)
 	tmp[i + 1] = '\0';
 	content = find_str(arg->envp, tmp, ft_strlen(tmp));
 	free(tmp);
+	// if (content[0] == '\0')
+	// {
+	// 	content = malloc(2 * sizeof(char));
+	// 	content[0] = ' ';
+	// 	content[1] = '\0';
+	// 	return (content);
+	// }
 	return (ft_strdup(content));
 }
 
@@ -139,8 +146,9 @@ int	replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i)
 		return (++i);
 	replace = get_var_content(arg, (*list)->content + i);
 	len_replace = ft_strlen(replace);
-	if (!replace)
+	if (!replace || !(*replace))
 	{
+		dprintf(2, "hello there\n");
 		len = 1;
 		while ((*list)->content[len + i]
 			&& (ft_isalnum((*list)->content[len + i])

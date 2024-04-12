@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/11 16:30:11 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:54:30 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ bool	get_exit_code(t_arg *arg, char **argv)
  */
 void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 {
-	dprintf(2, "nb cmd = %d\n", arg->nb_cmd);
 	if (arg->nb_cmd <= 1)
 	{
 		write(1, "exit\n", 5);
@@ -133,7 +132,6 @@ void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 			free_cmd_lst(arg->cmd_list);
 		}
 		rl_clear_history();
-		dprintf(2, "ha ha on a free !\n");
 		free(arg->prompt);
 		free(arg->whole_line);
 		free(arg->pwd);

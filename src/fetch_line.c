@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:35:39 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/11 16:31:36 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:54:19 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	fetch_line(char **envp)
 		}
 		free(arg.whole_line);
 	}
-	dprintf(2, "ho ho on break !\n");
 	builtin_exit(&arg, NULL, false);
 	return (arg.exit_code);
 }

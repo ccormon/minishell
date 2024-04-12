@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 14:19:02 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 18:42:35 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define BUILTIN_KO 2
 # define EXEC_CMD_KO 126
 # define INVALID_CMD 127
+# define CTRL_C 130
 # define TMP_FILE "/tmp/tmp"
 
 /**************** ENUM *****************/
@@ -54,6 +55,11 @@ typedef enum e_token
 	TOKEN_APPEND,
 	TOKEN_PIPE
 }	t_token;
+
+/*************** GLOBAL ****************/
+
+extern int	g_here_doc_fd;
+extern int	g_signal;
 
 /*************** STRUCT ****************/
 
@@ -99,6 +105,10 @@ typedef struct s_arg
 
 /************** FONCTIONS **************/
 
+void		handle_signal_rl(int sig);
+void		handle_signal_cmd(int sig);
+void		handle_signal_hd(int sig);
+
 //ENTRY POINT OF THE PROGRAM (FETCH_LINE)
 int			fetch_line(char **envp);
 
@@ -142,6 +152,7 @@ void		executing(t_arg *arg);
 char		*ft_strjoin_path(char *path, char *cmd);
 char		*ft_which(char **paths, char *cmd);
 int			nb_cmd(t_cmd *cmd);
+void		exec_errors(t_arg *arg, t_cmd *cmd);
 
 //(EXEC_ONE_CMD)
 void		exec_one_cmd(t_arg *arg, t_cmd *cmd);
@@ -150,7 +161,7 @@ void		handle_one_cmd(t_arg *arg);
 //(EXEC_MULTI_CMD)
 void		ft_pipe(t_arg *arg, t_cmd *cmd);
 void		exec_cmd(t_arg *arg, t_cmd *cmd);
-void		wait_childs(t_arg *arg, t_cmd *cmd);
+void		wait_childs(t_arg *arg, t_cmd *cmd, int nb_cmd);
 void		handle_multi_cmd(t_arg *arg, t_cmd *cmd);
 void		exit_fork(t_arg *arg, int exit_code);
 

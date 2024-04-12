@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fetch_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:35:39 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/12 14:27:09 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:47:13 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,17 @@ int	fetch_line(char **envp)
 	{
 		arg.lexing = NULL;
 		arg.nb_cmd = 0;
+		g_here_doc_fd = 0;
+		g_signal = 0;
+		signal(SIGINT, &handle_signal_rl);
 		arg.whole_line = readline(arg.prompt);
 		add_history(arg.whole_line);
+		if (g_signal == 1)
+		{
+			arg.exit_code = CTRL_C;
+			continue ;
+		}
+		signal(SIGINT, &handle_signal_cmd);
 		if (!arg.whole_line)
 			break ;
 		if (parse_line(&arg))

@@ -6,52 +6,11 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 12:55:15 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 18:35:10 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	nb_redir_input(t_cmd *cmd) // merge this two functions together
-{
-	int	i;
-
-	if (!cmd->input_file)
-		return (0);
-	i = 0;
-	while (cmd->input_file[i])
-		i++;
-	return (i);
-}
-
-int	nb_redir_output(t_cmd *cmd) // merge this two functions together
-{
-	int	i;
-
-	if (!cmd->output_file)
-		return (0);
-	i = 0;
-	while (cmd->output_file[i])
-		i++;
-	return (i);
-}
-
-void	read_input(int tmp_fd, char *lim_lr)
-{
-	char	*buffer;
-
-	ft_putstr_fd("> ", STDOUT_FILENO);
-	buffer = get_next_line(STDIN_FILENO);
-	while (buffer && !ft_strcmp(buffer, lim_lr))
-	{
-		ft_putstr_fd(buffer, tmp_fd);
-		free(buffer);
-		ft_putstr_fd("> ", STDOUT_FILENO);
-		buffer = get_next_line(STDIN_FILENO);
-	}
-	if (buffer)
-		free(buffer);
-}
 
 int	open_hd(t_cmd *cmd, int i)
 {
@@ -70,6 +29,11 @@ int	open_hd(t_cmd *cmd, int i)
 	read_input(tmp_fd, lim_lr);
 	close(tmp_fd);
 	free(lim_lr);
+	if (g_here_doc_fd == -1)
+	{
+		free(tmp_file_name);
+		return (-1);
+	}
 	tmp_fd = open(tmp_file_name, O_RDONLY);
 	unlink(tmp_file_name);
 	free(tmp_file_name);
@@ -78,9 +42,9 @@ int	open_hd(t_cmd *cmd, int i)
 
 int	invalid_fd(char *file_name, int here_doc)
 {
-	if (here_doc == 2)
+	if (here_doc == 2 && g_here_doc_fd != -1)
 		perror("here_doc");
-	else
+	else if (g_here_doc_fd != -1)
 		perror(file_name);
 	return (-1);
 }
@@ -127,10 +91,10 @@ int	handle_redir_output(t_cmd *cmd)
 	{
 		if (cmd->output_redir[i] == 1)
 			tmp_fd = open(cmd->output_file[i], O_WRONLY | O_CREAT | O_TRUNC,
-				0777);
+					0777);
 		else if (cmd->output_redir[i] == 2)
 			tmp_fd = open(cmd->output_file[i], O_WRONLY | O_CREAT | O_APPEND,
-				0777);
+					0777);
 		if (i != 0)
 			close(final_fd);
 		if (tmp_fd == -1)

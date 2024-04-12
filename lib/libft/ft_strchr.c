@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:14:30 by sdemaude          #+#    #+#             */
-/*   Updated: 2023/10/20 16:04:22 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:08:12 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strchr(const char *str, int c)
 {
 	int	i;
 
+	if (!str)
+		return (NULL);
 	i = 0;
 	if ((char)c == '\0')
 	{

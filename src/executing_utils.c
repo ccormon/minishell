@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 14:25:57 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 15:22:40 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*ft_which(char **paths, char *cmd)
 	char	*cmd_path;
 	size_t	i;
 
+	if (!cmd)
+		return (NULL);
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, F_OK) == 0)
@@ -68,4 +70,38 @@ int	nb_cmd(t_cmd *cmd)
 		i++;
 	}
 	return (i);
+}
+
+void	exit_fork(t_arg *arg, int exit_code)
+{
+	free(arg->prompt);
+	free(arg->pwd);
+	free(arg->whole_line);
+	free_tab(arg->envp);
+	free_tab(arg->paths);
+	free_lst(arg->lexing);
+	free_cmd_lst(arg->cmd_list);
+	rl_clear_history();
+	exit(exit_code);
+}
+
+void	exec_errors(t_arg *arg, t_cmd *cmd)
+{
+	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+	if (cmd->cmd_path && access(cmd->cmd_path, X_OK) != 0)
+	{
+		ft_putstr_fd(" : permission denied\n", STDERR_FILENO);
+		exit_fork(arg, EXEC_CMD_KO);
+	}
+	if (!cmd->cmd_path && cmd->argv[0])
+	{
+		ft_putstr_fd(" : command not found\n", STDERR_FILENO);
+		exit_fork(arg, INVALID_CMD);
+	}
+	if (cmd->argv[0])
+	{
+		ft_putstr_fd(" : execution KO\n", STDERR_FILENO);
+		exit_fork(arg, EXEC_CMD_KO);
+	}
+	exit_fork(arg, EXIT_SUCCESS);
 }

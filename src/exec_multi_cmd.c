@@ -6,77 +6,18 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 14:04:56 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/12 18:22:48 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_pipe_first_cmd(t_arg *arg, t_cmd *cmd)
+void	exec_builtins(t_arg *arg, t_cmd *cmd)
 {
-	pipe(arg->pipe_fd);
-	if (cmd->input_fd != STDIN_FILENO)
-		arg->cmd_read_fd = cmd->input_fd;
+	if (cmd->output_fd == STDOUT_FILENO)
+		handle_builtins(arg, cmd, arg->pipe_fd[1]);
 	else
-		arg->cmd_read_fd = dup(STDIN_FILENO);
-	if (cmd->output_fd != STDOUT_FILENO)
-	{
-		close(arg->pipe_fd[1]);
-		arg->pipe_fd[1] = cmd->output_fd;
-	}
-}
-
-void	ft_pipe_last_cmd(t_arg *arg, t_cmd *cmd)
-{
-	close(arg->cmd_read_fd);
-	if (cmd->input_fd != STDIN_FILENO)
-		arg->cmd_read_fd = cmd->input_fd;
-	else
-		arg->cmd_read_fd = arg->pipe_fd[0];
-	close(arg->pipe_fd[1]);
-	if (cmd->output_fd != STDOUT_FILENO)
-		arg->pipe_fd[1] = cmd->output_fd;
-	else
-		arg->pipe_fd[1] = dup(STDOUT_FILENO);
-}
-
-void	ft_pipe_middle_cmd(t_arg *arg, t_cmd *cmd)
-{
-	close(arg->cmd_read_fd);
-	if (cmd->input_fd != STDIN_FILENO)
-		arg->cmd_read_fd = cmd->input_fd;
-	else
-		arg->cmd_read_fd = arg->pipe_fd[0];
-	close(arg->pipe_fd[1]);
-	pipe(arg->pipe_fd);
-	if (cmd->output_fd != STDOUT_FILENO)
-	{
-		close(arg->pipe_fd[1]);
-		arg->pipe_fd[1] = cmd->output_fd;
-	}
-}
-
-void	ft_pipe(t_arg *arg, t_cmd *cmd)
-{
-	if (arg->cmd_list == cmd)
-		ft_pipe_first_cmd(arg, cmd);
-	else if (!cmd->next)
-		ft_pipe_last_cmd(arg, cmd);
-	else
-		ft_pipe_middle_cmd(arg, cmd);
-}
-
-void	exit_fork(t_arg *arg, int exit_code)
-{
-	free(arg->prompt);
-	free(arg->pwd);
-	free(arg->whole_line);
-	free_tab(arg->envp);
-	free_tab(arg->paths);
-	free_lst(arg->lexing);
-	free_cmd_lst(arg->cmd_list);
-	rl_clear_history();
-	exit(exit_code);
+		handle_builtins(arg, cmd, cmd->output_fd);
 }
 
 void	exec_cmd(t_arg *arg, t_cmd *cmd)
@@ -91,65 +32,55 @@ void	exec_cmd(t_arg *arg, t_cmd *cmd)
 		close(arg->pipe_fd[0]);
 		if (cmd->cmd_path && access(cmd->cmd_path, X_OK) == 0)
 			execve(cmd->cmd_path, cmd->argv, arg->envp);
-		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-		if (cmd->cmd_path && access(cmd->cmd_path, X_OK) != 0)
-		{
-			ft_putstr_fd(" : permission denied\n", STDERR_FILENO);
-			exit_fork(arg, EXEC_CMD_KO);
-		}
-		if (!cmd->cmd_path)
-		{
-			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
-			exit_fork(arg, INVALID_CMD);
-		}
-		ft_putstr_fd(" : execution KO\n", STDERR_FILENO);
-		exit_fork(arg, EXEC_CMD_KO);
+		exec_errors(arg, cmd);
 	}
 }
 
-void	wait_childs(t_arg *arg, t_cmd *cmd)
+void	wait_childs(t_arg *arg, t_cmd *cmd, int nb_cmd)
 {
-	while (cmd)
+	int	i;
+
+	i = 0;
+	while (i < nb_cmd)
 	{
-		if (!ft_isbuiltin(cmd))
+		if (!ft_isbuiltin(cmd) && cmd->input_fd != -1 && cmd->output_fd != -1)
 		{
 			waitpid(cmd->pid_child, &cmd->status, 0);
-			if (cmd->cmd_path)
+			if (cmd->cmd_path && access(cmd->cmd_path, X_OK) == 0)
 				arg->exit_code = WEXITSTATUS(cmd->status);
 		}
 		cmd = cmd->next;
+		i++;
 	}
 }
 
+// dprintf(2, "box_fd = %d\tpipe_fd[1] = %d\tpipe_fd[0] = %d\n",
+// 	arg->cmd_read_fd, arg->pipe_fd[1], arg->pipe_fd[0]);
 void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 {
 	bool	redir_ok;
+	int		nb_cmd;
 
-	while (cmd)
+	nb_cmd = 0;
+	while (cmd && g_here_doc_fd != -1)
 	{
 		redir_ok = handle_redir(cmd);
 		ft_pipe(arg, cmd);
 		if (redir_ok)
 		{
-			// dprintf(2, "box_fd = %d\tpipe_fd[1] = %d\tpipe_fd[0] = %d\n",
-			// 	arg->cmd_read_fd, arg->pipe_fd[1], arg->pipe_fd[0]);
 			cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
 			if (ft_isbuiltin(cmd))
-			{
-				if (cmd->output_fd == STDOUT_FILENO)
-					handle_builtins(arg, cmd, arg->pipe_fd[1]);
-				else
-					handle_builtins(arg, cmd, cmd->output_fd);
-			}
+				exec_builtins(arg, cmd);
 			else
 				exec_cmd(arg, cmd);
 		}
 		else
 			arg->exit_code = GENERAL_ERR;
 		cmd = cmd->next;
+		nb_cmd++;
 	}
 	close(arg->cmd_read_fd);
 	close(arg->pipe_fd[0]);
 	close(arg->pipe_fd[1]);
-	wait_childs(arg, arg->cmd_list);
+	wait_childs(arg, arg->cmd_list, nb_cmd);
 }

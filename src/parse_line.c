@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:07:26 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/12 14:26:57 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:07:00 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,8 @@ bool	parse_line(t_arg *arg)
 		return (false);
 	lexing(arg, arg->whole_line);
 	init_cmd_list(arg, &arg->cmd_list, arg->lexing);
-	if (!arg->cmd_list->argv[0])
+	if (!arg->cmd_list->argv[0] && !arg->cmd_list->input_file[0]
+		&& !arg->cmd_list->output_file[0])
 	{
 		free_lst(arg->lexing);
 		free_cmd_lst(arg->cmd_list);

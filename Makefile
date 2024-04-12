@@ -6,7 +6,7 @@
 #    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/25 17:41:22 by sdemaude          #+#    #+#              #
-#    Updated: 2024/04/08 10:36:11 by sdemaude         ###   ########.fr        #
+#    Updated: 2024/04/12 14:43:31 by ccormon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCFILE		=	check_errors\
 				executing_utils\
 				fetch_line\
 				handle_redir\
+				handle_redir_utils\
 				handle_var\
 				init_list\
 				inutils\
@@ -36,6 +37,7 @@ SRCFILE		=	check_errors\
 				mod_libft\
 				parse_line\
 				type\
+				ft_pipe\
 				handle_builtins\
 				builtin_exit\
 				builtin_echo\

@@ -6,12 +6,11 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:30:30 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/09 11:04:38 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/12 19:30:57 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdlib.h>
 
 /*
  * Function: builtin_echo

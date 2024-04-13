@@ -6,7 +6,7 @@
 #    By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/25 17:41:22 by sdemaude          #+#    #+#              #
-#    Updated: 2024/04/12 14:43:31 by ccormon          ###   ########.fr        #
+#    Updated: 2024/04/13 12:00:32 by sdemaude         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCFILE		=	check_errors\
 				main\
 				mod_libft\
 				parse_line\
+				signal\
 				type\
 				ft_pipe\
 				handle_builtins\

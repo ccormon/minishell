@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:42:45 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 18:31:30 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 12:05:47 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	read_input(int tmp_fd, char *lim_lr)
 
 	g_here_doc_fd = dup(STDIN_FILENO);
 	ft_putstr_fd("> ", STDOUT_FILENO);
-	signal(SIGINT, &handle_signal_hd);
+	change_signal(2);
 	buffer = get_next_line(g_here_doc_fd);
 	while (buffer && !ft_strcmp(buffer, lim_lr))
 	{
@@ -55,7 +55,7 @@ void	read_input(int tmp_fd, char *lim_lr)
 		free(buffer);
 	else if (g_here_doc_fd != -1)
 		ft_putstr_fd("warning : here-document delimited by end-of-file\n",
-				STDERR_FILENO);
-	signal(SIGINT, &handle_signal_cmd);
+			STDERR_FILENO);
+	change_signal(0);
 	close(g_here_doc_fd);
 }

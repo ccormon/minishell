@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 18:22:48 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 12:06:27 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	wait_childs(t_arg *arg, t_cmd *cmd, int nb_cmd)
 	}
 }
 
-// dprintf(2, "box_fd = %d\tpipe_fd[1] = %d\tpipe_fd[0] = %d\n",
-// 	arg->cmd_read_fd, arg->pipe_fd[1], arg->pipe_fd[0]);
 void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 {
 	bool	redir_ok;

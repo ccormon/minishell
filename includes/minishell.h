@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 18:42:35 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 12:08:27 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ typedef enum e_token
 
 /*************** GLOBAL ****************/
 
-extern int	g_here_doc_fd;
-extern int	g_signal;
+extern int					g_here_doc_fd;
+extern int					g_signal;
 
 /*************** STRUCT ****************/
 
@@ -105,12 +105,15 @@ typedef struct s_arg
 
 /************** FONCTIONS **************/
 
+//ENTRY POINT OF THE PROGRAM (FETCH_LINE)
+int			fetch_line(char **envp);
+
+//HANDLE SIGNALS (SIGNAL)
 void		handle_signal_rl(int sig);
 void		handle_signal_cmd(int sig);
 void		handle_signal_hd(int sig);
-
-//ENTRY POINT OF THE PROGRAM (FETCH_LINE)
-int			fetch_line(char **envp);
+void		change_signal(int param);
+void		sig_exit_code(t_arg *arg);
 
 //PROMPT NAME AND MORE (INUTILS)
 char		*find_str(char **envp, char *to_find, int skip);

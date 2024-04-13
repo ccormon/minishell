@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:59:30 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/12 14:27:07 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 11:51:11 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,6 @@ void	init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp)
 		else if (tmp->token == TOKEN_PIPE)
 		{
 			i = 0;
-			if (!(*cmd)->argv[0])
-				(*cmd)->argv[0] = mod_strdup("cat", 3);
 			cmd_lstadd_back(cmd, cmd_lstnew(arg));
 			cmd = &(*cmd)->next;
 		}

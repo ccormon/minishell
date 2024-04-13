@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 18:44:32 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 12:06:18 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	exec_one_cmd(t_arg *arg, t_cmd *cmd)
 	cmd->pid_child = fork();
 	if (cmd->pid_child == 0)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		if (cmd->input_redir[0])
 		{
 			dup2(cmd->input_fd, STDIN_FILENO);

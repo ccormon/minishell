@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 18:35:10 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 12:07:56 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,16 @@ int	handle_redir_output(t_cmd *cmd)
 	return (final_fd);
 }
 
+//error diff test
 bool	handle_redir(t_cmd *cmd)
 {
 	cmd->input_fd = handle_redir_input(cmd);
+	cmd->output_fd = handle_redir_output(cmd);
 	if (cmd->input_fd == -1)
 	{
 		cmd->output_fd = -1;
 		return (false);
 	}
-	cmd->output_fd = handle_redir_output(cmd);
 	if (cmd->output_fd == -1)
 		return (false);
 	return (true);

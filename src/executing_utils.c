@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 14:51:21 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:24:04 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,18 +135,20 @@ void	exec_errors(t_arg *arg, t_cmd *cmd)
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
 	if (cmd->cmd_path && access(cmd->cmd_path, X_OK) != 0)
 	{
-		ft_putstr_fd(" : Permission denied\n", STDERR_FILENO);
+		perror(" ");
 		exit_fork(arg, EXEC_CMD_KO);
 	}
-	if (!cmd->cmd_path && cmd->argv[0])
+	if (!cmd->argv[0][0] || (!cmd->cmd_path && cmd->argv[0]))
 	{
-		ft_putstr_fd(" : command not found\n", STDERR_FILENO);
+		if (ft_strchr(cmd->argv[0], '/'))
+			perror(" ");
+		else
+			ft_putstr_fd(" : command not found\n", STDERR_FILENO);
 		exit_fork(arg, INVALID_CMD);
 	}
 	if (cmd->argv[0])
 	{
-		ft_putstr_fd(" : execution KO\n", STDERR_FILENO);
+		ft_putstr_fd(" : Is a directory\n", STDERR_FILENO);
 		exit_fork(arg, EXEC_CMD_KO);
 	}
-	exit_fork(arg, EXIT_SUCCESS);
 }

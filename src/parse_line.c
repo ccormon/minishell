@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:07:26 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/12 15:07:00 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 20:27:07 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ static void	remove_quotes(t_arg *arg, t_tmp_list *list)
 		i = 0;
 		while (list->content[i])
 		{
+			if ((list->content[0] == '\"' || list->content[0] == '\'')
+				&& list->content[1] == list->content[0])
+			{
+				list->content[0] = '\0';
+				break ;
+			}
 			in_quotes(list->content[i], &state);
 			if ((list->content[i] == '\"' && state != 1)
 				|| (list->content[i] == '\'' && state != 2))
@@ -138,18 +144,9 @@ static void	lexing(t_arg *arg, char *str)
  */
 bool	parse_line(t_arg *arg)
 {
-	if (!arg->whole_line[0])
-		return (false);
 	if (!check_errors(arg, arg->whole_line))
 		return (false);
 	lexing(arg, arg->whole_line);
 	init_cmd_list(arg, &arg->cmd_list, arg->lexing);
-	if (!arg->cmd_list->argv[0] && !arg->cmd_list->input_file[0]
-		&& !arg->cmd_list->output_file[0])
-	{
-		free_lst(arg->lexing);
-		free_cmd_lst(arg->cmd_list);
-		return (false);
-	}
 	return (true);
 }

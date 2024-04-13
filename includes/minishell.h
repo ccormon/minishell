@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 14:43:18 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:09:50 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <string.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <errno.h>
 
 /*************** DEFINE ****************/
 

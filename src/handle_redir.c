@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 12:07:56 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 12:29:05 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,12 @@ int	handle_redir_output(t_cmd *cmd)
 	return (final_fd);
 }
 
-//error diff test
+//changes : if a redir fail we continue and create all files 
 bool	handle_redir(t_cmd *cmd)
 {
 	cmd->input_fd = handle_redir_input(cmd);
 	cmd->output_fd = handle_redir_output(cmd);
-	if (cmd->input_fd == -1)
-	{
-		cmd->output_fd = -1;
-		return (false);
-	}
-	if (cmd->output_fd == -1)
+	if (cmd->input_fd == -1 || cmd->output_fd == -1)
 		return (false);
 	return (true);
 }

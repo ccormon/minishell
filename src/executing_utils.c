@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 15:22:40 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 12:33:42 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	exec_errors(t_arg *arg, t_cmd *cmd)
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
 	if (cmd->cmd_path && access(cmd->cmd_path, X_OK) != 0)
 	{
-		ft_putstr_fd(" : permission denied\n", STDERR_FILENO);
+		ft_putstr_fd(" : Permission denied\n", STDERR_FILENO);
 		exit_fork(arg, EXEC_CMD_KO);
 	}
 	if (!cmd->cmd_path && cmd->argv[0])

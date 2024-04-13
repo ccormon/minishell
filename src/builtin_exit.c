@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/12 10:54:30 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 14:43:26 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 		{
 			if (!get_exit_code(arg, argv))
 				return ;
+			printf("exit code = %d\n", arg->exit_code);
 			free_lst(arg->lexing);
 			free_cmd_lst(arg->cmd_list);
 		}

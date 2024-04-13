@@ -6,12 +6,20 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 12:06:18 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:49:31 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: exec_one_cmd
+ * ----------------------
+ * Executes a single command.
+ *
+ * arg: Pointer to the argument structure.
+ * cmd: Pointer to the command structure.
+ */
 void	exec_one_cmd(t_arg *arg, t_cmd *cmd)
 {
 	cmd->pid_child = fork();
@@ -40,6 +48,13 @@ void	exec_one_cmd(t_arg *arg, t_cmd *cmd)
 	arg->exit_code = WEXITSTATUS(cmd->status);
 }
 
+/*
+ * Function: handle_one_cmd
+ * -------------------------
+ * Handles execution of a single command.
+ *
+ * arg: Pointer to the argument structure.
+ */
 void	handle_one_cmd(t_arg *arg)
 {
 	if (!handle_redir(arg->cmd_list))

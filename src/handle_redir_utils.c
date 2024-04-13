@@ -6,12 +6,21 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:42:45 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 12:05:47 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:54:51 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: nb_redir_input
+ * -------------------------
+ * Counts the number of input redirections in a command.
+ *
+ * cmd: Pointer to the command structure.
+ *
+ * Returns: The number of input redirections.
+ */
 int	nb_redir_input(t_cmd *cmd)
 {
 	int	i;
@@ -24,6 +33,15 @@ int	nb_redir_input(t_cmd *cmd)
 	return (i);
 }
 
+/*
+ * Function: nb_redir_output
+ * --------------------------
+ * Counts the number of output redirections in a command.
+ *
+ * cmd: Pointer to the command structure.
+ *
+ * Returns: The number of output redirections.
+ */
 int	nb_redir_output(t_cmd *cmd)
 {
 	int	i;
@@ -36,6 +54,14 @@ int	nb_redir_output(t_cmd *cmd)
 	return (i);
 }
 
+/*
+ * Function: read_input
+ * ---------------------
+ * Reads input for here-document redirection.
+ *
+ * tmp_fd: Temporary file descriptor for writing input.
+ * lim_lr: Delimiter for here-document.
+ */
 void	read_input(int tmp_fd, char *lim_lr)
 {
 	char	*buffer;

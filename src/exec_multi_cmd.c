@@ -6,12 +6,20 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 12:06:27 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:48:40 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: exec_builtins
+ * -----------------------
+ * Executes the built-in commands.
+ *
+ * arg: Pointer to the argument structure.
+ * cmd: Pointer to the command structure.
+ */
 void	exec_builtins(t_arg *arg, t_cmd *cmd)
 {
 	if (cmd->output_fd == STDOUT_FILENO)
@@ -20,6 +28,14 @@ void	exec_builtins(t_arg *arg, t_cmd *cmd)
 		handle_builtins(arg, cmd, cmd->output_fd);
 }
 
+/*
+ * Function: exec_cmd
+ * -------------------
+ * Executes a command.
+ *
+ * arg: Pointer to the argument structure.
+ * cmd: Pointer to the command structure.
+ */
 void	exec_cmd(t_arg *arg, t_cmd *cmd)
 {
 	cmd->pid_child = fork();
@@ -36,6 +52,15 @@ void	exec_cmd(t_arg *arg, t_cmd *cmd)
 	}
 }
 
+/*
+ * Function: wait_childs
+ * ----------------------
+ * Waits for child processes to terminate.
+ *
+ * arg:     Pointer to the argument structure.
+ * cmd:     Pointer to the command structure.
+ * nb_cmd:  Number of commands to wait for.
+ */
 void	wait_childs(t_arg *arg, t_cmd *cmd, int nb_cmd)
 {
 	int	i;
@@ -54,6 +79,14 @@ void	wait_childs(t_arg *arg, t_cmd *cmd, int nb_cmd)
 	}
 }
 
+/*
+ * Function: handle_multi_cmd
+ * ---------------------------
+ * Handles execution of multiple commands in a pipeline.
+ *
+ * arg:     Pointer to the argument structure.
+ * cmd:     Pointer to the command structure.
+ */
 void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 {
 	bool	redir_ok;

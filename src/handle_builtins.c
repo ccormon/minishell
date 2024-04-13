@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtins.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:15:20 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/11 13:09:46 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/13 14:53:41 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: ft_isbuiltin
+ * -----------------------
+ * Checks if a command is a built-in command.
+ *
+ * cmd: Pointer to the command structure.
+ *
+ * Returns: true if the command is a built-in command, false otherwise.
+ */
 bool	ft_isbuiltin(t_cmd *cmd)
 {
 	if (ft_strcmp(cmd->argv[0], "echo")
@@ -25,6 +34,18 @@ bool	ft_isbuiltin(t_cmd *cmd)
 	return (false);
 }
 
+/*
+ * Function: handle_builtins
+ * --------------------------
+ * Handles execution of built-in commands.
+ *
+ * arg: Pointer to the argument structure.
+ * cmd: Pointer to the command structure.
+ * output_fd: File descriptor for output redirection.
+ *
+ * Returns: true if the command is a built-in command and executed successfully,
+ * false otherwise.
+ */
 bool	handle_builtins(t_arg *arg, t_cmd *cmd, int output_fd)
 {
 	if (ft_strcmp(cmd->argv[0], "echo"))

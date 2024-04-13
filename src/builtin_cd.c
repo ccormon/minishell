@@ -6,13 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:55:56 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/09 11:04:18 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:45:03 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <dirent.h>
-#include <stdlib.h>
 
 /*
  * Function: exec_cd

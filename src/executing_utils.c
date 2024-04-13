@@ -6,12 +6,22 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 12:33:42 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:51:21 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: ft_strjoin_path
+ * --------------------------
+ * Joins two strings, path and cmd, inserting a '/' character between them.
+ *
+ * path: The path string.
+ * cmd: The command string.
+ *
+ * returns: The concatenated string.
+ */
 char	*ft_strjoin_path(char *path, char *cmd)
 {
 	char	*cmd_path;
@@ -28,6 +38,16 @@ char	*ft_strjoin_path(char *path, char *cmd)
 	return (cmd_path);
 }
 
+/*
+ * Function: ft_which
+ * -------------------
+ * Locates the executable file corresponding to the given command.
+ *
+ * paths: Array of paths to search in.
+ * cmd: The command to search for.
+ *
+ * returns: The full path to the executable file if found, otherwise NULL.
+ */
 char	*ft_which(char **paths, char *cmd)
 {
 	char	*cmd_path;
@@ -55,6 +75,15 @@ char	*ft_which(char **paths, char *cmd)
 	return (NULL);
 }
 
+/*
+ * Function: nb_cmd
+ * ----------------
+ * Counts the number of commands in the linked list.
+ *
+ * cmd: Pointer to the head of the command linked list.
+ *
+ * returns: The number of commands.
+ */
 int	nb_cmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
@@ -72,6 +101,14 @@ int	nb_cmd(t_cmd *cmd)
 	return (i);
 }
 
+/*
+ * Function: exit_fork
+ * --------------------
+ * Frees memory and exits the process with the specified exit code.
+ *
+ * arg: Pointer to the argument structure.
+ * exit_code: The exit code to be returned.
+ */
 void	exit_fork(t_arg *arg, int exit_code)
 {
 	free(arg->prompt);
@@ -85,6 +122,14 @@ void	exit_fork(t_arg *arg, int exit_code)
 	exit(exit_code);
 }
 
+/*
+ * Function: exec_errors
+ * ---------------------
+ * Handles errors that occur during command execution.
+ *
+ * arg: Pointer to the argument structure.
+ * cmd: Pointer to the command structure.
+ */
 void	exec_errors(t_arg *arg, t_cmd *cmd)
 {
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);

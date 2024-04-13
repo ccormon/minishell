@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:00:08 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 12:08:05 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:56:33 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ void	handle_signal_rl(int sig)
 	}
 }
 
+/*
+ * Function: handle_signal_cmd
+ * ---------------------------
+ * Handles signals for command mode.
+ *
+ * sig: The signal number.
+ */
 void	handle_signal_cmd(int sig)
 {
 	if (sig == SIGINT)
@@ -48,6 +55,13 @@ void	handle_signal_cmd(int sig)
 		ft_putstr_fd("\b\b  \b\b", STDOUT_FILENO);
 }
 
+/*
+ * Function: handle_signal_hd
+ * --------------------------
+ * Handles signals for here-document mode.
+ *
+ * sig: The signal number.
+ */
 void	handle_signal_hd(int sig)
 {
 	if (sig == SIGINT)
@@ -61,6 +75,13 @@ void	handle_signal_hd(int sig)
 		ft_putstr_fd("\b\b  \b\b", STDOUT_FILENO);
 }
 
+/*
+ * Function: sig_exit_code
+ * ------------------------
+ * Sets the exit code based on the received signal.
+ *
+ * arg: Pointer to the argument structure.
+ */
 void	sig_exit_code(t_arg *arg)
 {
 	if (g_signal == 1)
@@ -70,6 +91,13 @@ void	sig_exit_code(t_arg *arg)
 	}
 }
 
+/*
+ * Function: change_signal
+ * ------------------------
+ * Changes the signal handling based on the parameter value.
+ *
+ * param: The parameter value.
+ */
 void	change_signal(int param)
 {
 	if (param == 0)

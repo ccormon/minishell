@@ -6,12 +6,19 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:17:50 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/12 19:40:40 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:50:03 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: executing
+ * --------------------
+ * Executes the commands in the argument structure.
+ *
+ * arg: Pointer to the argument structure.
+ */
 void	executing(t_arg *arg)
 {
 	arg->nb_cmd = nb_cmd(arg->cmd_list);

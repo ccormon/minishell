@@ -6,11 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:50:20 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 14:45:38 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 11:47:42 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
 
 /*
  * Function: shift_tab
@@ -74,7 +75,7 @@ void	builtin_unset(t_arg *arg, char **argv)
 	int	j;
 
 	i = 0;
-	arg->exit_code = 0;
+	arg->exit_code = EXIT_SUCCESS;
 	if (argv[1])
 	{
 		while (argv[++i])

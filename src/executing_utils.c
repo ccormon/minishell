@@ -6,11 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 20:24:04 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 13:39:35 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdlib.h>
 
 /*
  * Function: ft_strjoin_path
@@ -132,6 +133,8 @@ void	exit_fork(t_arg *arg, int exit_code)
  */
 void	exec_errors(t_arg *arg, t_cmd *cmd)
 {
+	if (!cmd->argv[0] && (cmd->input_redir[0] || cmd->output_redir[0]))
+		exit_fork(arg, EXIT_SUCCESS);
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
 	if (cmd->cmd_path && access(cmd->cmd_path, X_OK) != 0)
 	{

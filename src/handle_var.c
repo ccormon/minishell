@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:49:13 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/12 19:31:32 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 13:30:13 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static char	*get_var_content(t_arg *arg, char *str)
 	tmp[i + 1] = '\0';
 	content = find_str(arg->envp, tmp, ft_strlen(tmp));
 	free(tmp);
+	if (i == 0)
+		return (ft_strdup("$"));
 	if (!content || !*content)
 		return (NULL);
 	return (ft_strdup(content));

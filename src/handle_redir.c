@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 17:05:46 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 18:34:15 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,4 +156,10 @@ void	handle_redir(t_cmd *cmd)
 {
 	cmd->input_fd = handle_redir_input(cmd);
 	cmd->output_fd = handle_redir_output(cmd);
+	if (cmd->output_fd == -1 && cmd->input_fd != -1
+		&& cmd->input_fd != STDIN_FILENO)
+		close(cmd->input_fd);
+	if (cmd->input_fd == -1 && cmd->output_fd != -1
+		&& cmd->output_fd != STDOUT_FILENO)
+		close(cmd->output_fd);
 }

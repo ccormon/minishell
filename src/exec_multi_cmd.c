@@ -6,11 +6,30 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 15:49:06 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 16:32:58 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+bool	found_path_line(char *str)
+{
+	if (!str || !(*str) || ft_strlen(str) < 5)
+		return (false);
+	if (*str == 'P' && *(str + 1) == 'A' && *(str + 2) == 'T'
+		&& *(str + 3) == 'H' && *(str + 4) == '=')
+		return (true);
+	return (false);
+}
+
+char	**found_path(char **envp)
+{
+	while (envp && *envp && !found_path_line(*envp))
+		envp++;
+	if (!envp || !(*envp))
+		return (NULL);
+	return (ft_split(*envp + 5, ':'));
+}
 
 // /*
 //  * Function: exec_builtins
@@ -42,8 +61,6 @@
  */
 void	exec_cmd(t_arg *arg, t_cmd *cmd)
 {
-	// dprintf(2, "cmd_read_fd = %d    pipe_fd[1] = %d    pipe_fd[0] = %d\n",
-	// 	arg->cmd_read_fd, arg->pipe_fd[1], arg->pipe_fd[0]);
 	cmd->pid_child = fork();
 	if (cmd->pid_child == 0)
 	{
@@ -54,7 +71,7 @@ void	exec_cmd(t_arg *arg, t_cmd *cmd)
 		close(arg->pipe_fd[0]);
 		if (ft_isbuiltin(cmd))
 		{
-			handle_builtins(arg, cmd, arg->pipe_fd[1]);
+			handle_builtins(arg, cmd, STDOUT_FILENO);
 			exit_fork(arg, arg->exit_code);
 		}
 		if (cmd->cmd_path && access(cmd->cmd_path, X_OK) == 0)
@@ -110,7 +127,12 @@ void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 		ft_pipe(arg, cmd);
 		if (redir_ok)
 		{
-			cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
+			if (!ft_isbuiltin(cmd))
+			{
+				arg->paths = found_path(arg->envp);
+				cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
+				free_tab(arg->paths);
+			}
 			exec_cmd(arg, cmd);
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 13:39:35 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:22:34 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	exit_fork(t_arg *arg, int exit_code)
 	free(arg->pwd);
 	free(arg->whole_line);
 	free_tab(arg->envp);
-	free_tab(arg->paths);
 	free_lst(arg->lexing);
 	free_cmd_lst(arg->cmd_list);
 	rl_clear_history();

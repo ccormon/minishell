@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 20:24:48 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:18:13 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 		free(arg->prompt);
 		free(arg->whole_line);
 		free(arg->pwd);
-		free_tab(arg->paths);
 		free_tab(arg->envp);
 		exit(arg->exit_code);
 	}

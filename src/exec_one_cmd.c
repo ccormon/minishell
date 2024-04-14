@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 14:49:31 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:20:01 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	handle_one_cmd(t_arg *arg)
 	}
 	if (handle_builtins(arg, arg->cmd_list, arg->cmd_list->output_fd))
 		return ;
-	arg->cmd_list->cmd_path = ft_which(arg->paths,
-			arg->cmd_list->argv[0]);
+	arg->paths = found_path(arg->envp);
+	arg->cmd_list->cmd_path = ft_which(arg->paths, arg->cmd_list->argv[0]);
+	free_tab(arg->paths);
 	exec_one_cmd(arg, arg->cmd_list);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fetch_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:35:39 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 12:07:13 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:11:17 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@
  * arg:   Pointer to a structure containing command argv and settings.
  * envp:  Array of strings containing the environment variables.
  */
-static void	init_paths(t_arg *arg, char **envp)
-{
-	char	*path_line;
+// static void	init_paths(t_arg *arg, char **envp)
+// {
+// 	char	*path_line;
 
-	path_line = find_str(envp, "PATH=", 5);
-	if (!path_line)
-	{
-		arg->paths = NULL;
-		return ;
-	}
-	arg->paths = ft_split(path_line, ':');
-}
+// 	path_line = find_str(envp, "PATH=", 5);
+// 	if (!path_line)
+// 	{
+// 		arg->paths = NULL;
+// 		return ;
+// 	}
+// 	arg->paths = ft_split(path_line, ':');
+// }
 
 /*
  * Function: ft_tabdup
@@ -81,7 +81,8 @@ static void	init_arg(t_arg *arg, char **envp)
 	arg->envp = ft_tabdup(envp);
 	arg->pwd = getcwd(NULL, 0);
 	arg->prompt = get_prompt(arg->envp);
-	init_paths(arg, arg->envp);
+	arg->paths = NULL;
+	// init_paths(arg, arg->envp);
 	if (!find_str(envp, "PWD=", 4))
 		rewrite_evar(arg, "PWD=", getcwd(NULL, 0));
 }

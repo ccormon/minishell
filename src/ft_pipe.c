@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:40 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 14:52:55 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 14:47:18 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_pipe_last_cmd(t_arg *arg, t_cmd *cmd)
 /*
  * Function: ft_pipe_middle_cmd
  * ----------------------------
- * Sets up the pipe for a command that is neither the first nor the last 
+ * Sets up the pipe for a command that is neither the first nor the last
  * in the pipeline.
  *
  * arg: Pointer to the argument structure.

@@ -6,12 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:50:20 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/14 16:39:26 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 19:18:58 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdlib.h>
+#include <stdio.h>
 
 /*
  * Function: shift_tab
@@ -47,18 +47,14 @@ static void	shift_tab(char **tab)
 static void	exec_unset(t_arg *arg, char *str)
 {
 	int		i;
-	char	*name;
+	char	**name;
 
 	i = 0;
-	name = malloc(ft_strlen(str) + 1);
-	while (str[i])
-	{
-		name[i] = str[i];
-		i++;
-	}
-	name[i] = '\0';
-	shift_tab(find_var(arg->envp, name));
-	free(name);
+	name = NULL;
+	name = find_var(arg->envp, str);
+	if (*(*name + ft_strlen(str)) != '=')
+		return ;
+	shift_tab(name);
 }
 
 /*
@@ -83,13 +79,16 @@ void	builtin_unset(t_arg *arg, char **argv)
 			j = 0;
 			while (ft_isalnum(argv[i][j]) || argv[i][j] == '_')
 				j++;
-			if (argv[i][j] != '\0' || (!ft_isalpha(argv[i][0])
-				&& argv[i][0] != '_'))
+			if (!ft_isdigit(argv[i][0]) && argv[i][j] == '\0')
+				continue ;
+			if (argv[i][j] != '\0'
+				|| (!ft_isalpha(argv[i][0]) && argv[i][0] != '_'))
 			{
 				ft_putstr_fd("unset : not a valid identifier\n", STDERR_FILENO);
 				arg->exit_code = GENERAL_ERR;
 			}
-			exec_unset(arg, argv[i]);
+			else
+				exec_unset(arg, argv[i]);
 		}
 	}
 }

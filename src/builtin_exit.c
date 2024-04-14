@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/14 16:18:13 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 16:38:37 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,21 +121,18 @@ bool	get_exit_code(t_arg *arg, char **argv)
  */
 void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 {
-	if (arg->nb_cmd <= 1)
+	write(1, "exit\n", 5);
+	if (builtin)
 	{
-		write(1, "exit\n", 5);
-		if (builtin)
-		{
-			if (!get_exit_code(arg, argv))
-				return ;
-			free_lst(arg->lexing);
-			free_cmd_lst(arg->cmd_list);
-		}
-		rl_clear_history();
-		free(arg->prompt);
-		free(arg->whole_line);
-		free(arg->pwd);
-		free_tab(arg->envp);
-		exit(arg->exit_code);
+		if (!get_exit_code(arg, argv))
+			return ;
+		free_lst(arg->lexing);
+		free_cmd_lst(arg->cmd_list);
 	}
+	rl_clear_history();
+	free(arg->prompt);
+	free(arg->whole_line);
+	free(arg->pwd);
+	free_tab(arg->envp);
+	exit(arg->exit_code);
 }

@@ -144,7 +144,7 @@ bool		check_errors(t_arg *arg, char *str);
 void		in_quotes(char c, int *state);
 
 //REPLACE ENVIRONEMENT VARIABLES (HANDLE_VAR)
-int			replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i);
+int		replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i);
 
 //CREATE COMMAND LINKED LIST (INIT_LIST)
 void		init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp);
@@ -155,7 +155,7 @@ void		executing(t_arg *arg);
 //(EXECUTING_UTILS)
 char		*ft_strjoin_path(char *path, char *cmd);
 char		*ft_which(char **paths, char *cmd);
-int			nb_cmd(t_cmd *cmd);
+int		nb_cmd(t_cmd *cmd);
 void		exec_errors(t_arg *arg, t_cmd *cmd);
 bool		found_path_line(char *str);
 char		**found_path(char **envp);
@@ -172,13 +172,15 @@ void		handle_multi_cmd(t_arg *arg, t_cmd *cmd);
 void		exit_fork(t_arg *arg, int exit_code);
 
 //(HANDLE_REDIR)
-int			nb_redir_input(t_cmd *cmd);
-int			nb_redir_output(t_cmd *cmd);
-void		read_input(int tmp_fd, char *lim_lr);
 int			open_hd(t_cmd *cmd, int i);
 int			handle_redir_input(t_cmd *cmd);
 int			handle_redir_output(t_cmd *cmd);
 bool		handle_redir(t_cmd *cmd);
+
+//(HANDLE_REDIR_UTILS)
+int			nb_redir_input(t_cmd *cmd);
+int			nb_redir_output(t_cmd *cmd);
+void		read_input(int tmp_fd, char *lim_lr);
 
 //(HANDLE_BUILTINS)
 bool		ft_isbuiltin(t_cmd *cmd);

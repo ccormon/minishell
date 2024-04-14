@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:50:20 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/14 11:47:42 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:39:26 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ void	builtin_unset(t_arg *arg, char **argv)
 				ft_putstr_fd("unset : not a valid identifier\n", STDERR_FILENO);
 				arg->exit_code = GENERAL_ERR;
 			}
-			else if (arg->nb_cmd == 1)
-				exec_unset(arg, argv[i]);
+			exec_unset(arg, argv[i]);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 10:51:28 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 14:45:24 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:39:03 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ void	builtin_export(t_arg *arg, char **argv, int fd)
 			ft_putstr_fd("export : not a valid identifier\n", STDERR_FILENO);
 			arg->exit_code = GENERAL_ERR;
 		}
-		else if (arg->nb_cmd == 1)
-			exec_export(arg, argv[i]);
+		exec_export(arg, argv[i]);
 	}
 }

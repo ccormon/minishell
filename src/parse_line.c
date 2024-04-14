@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:07:26 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 20:27:07 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 15:09:27 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	next_element(char *str)
 	state = 0;
 	while (str[i])
 	{
-		if (ft_isseparator(str[i]) && ft_isseparator(str[i + 1]))
+		if (ft_isseparator(str[i]) && str[i + 1] == str[i])
 			return (2);
 		else if (ft_isseparator(str[i]))
 			return (1);
@@ -88,12 +88,6 @@ static void	remove_quotes(t_arg *arg, t_tmp_list *list)
 		i = 0;
 		while (list->content[i])
 		{
-			if ((list->content[0] == '\"' || list->content[0] == '\'')
-				&& list->content[1] == list->content[0])
-			{
-				list->content[0] = '\0';
-				break ;
-			}
 			in_quotes(list->content[i], &state);
 			if ((list->content[i] == '\"' && state != 1)
 				|| (list->content[i] == '\'' && state != 2))
@@ -144,9 +138,13 @@ static void	lexing(t_arg *arg, char *str)
  */
 bool	parse_line(t_arg *arg)
 {
+	if (!arg->whole_line[0])
+		return (false);
 	if (!check_errors(arg, arg->whole_line))
 		return (false);
 	lexing(arg, arg->whole_line);
+	if (!arg->lexing)
+		return (false);
 	init_cmd_list(arg, &arg->cmd_list, arg->lexing);
 	return (true);
 }

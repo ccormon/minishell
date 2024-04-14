@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 17:55:56 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/14 13:56:34 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 16:37:59 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,11 @@ static void	exec_cd(t_arg *arg, char *path)
 		return ;
 	}
 	closedir(dir);
-	if (arg->nb_cmd == 1)
-	{
-		chdir(path);
-		free(arg->pwd);
-		arg->pwd = getcwd(NULL, 0);
-		rewrite_evar(arg, "OLDPWD=", find_str(arg->envp, "PWD=", 4));
-		rewrite_evar(arg, "PWD=", arg->pwd);
-	}
+	chdir(path);
+	free(arg->pwd);
+	arg->pwd = getcwd(NULL, 0);
+	rewrite_evar(arg, "OLDPWD=", find_str(arg->envp, "PWD=", 4));
+	rewrite_evar(arg, "PWD=", arg->pwd);
 }
 
 /*

@@ -6,12 +6,22 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 16:29:42 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 15:15:54 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Function: open_hd
+ * ------------------
+ * Opens a file descriptor for here-document mode.
+ *
+ * cmd: The command structure.
+ * i: The index of the input file.
+ *
+ * Returns: The file descriptor of the opened file.
+ */
 int	open_hd(t_cmd *cmd, int i)
 {
 	char	*tmp_file_name;
@@ -40,6 +50,16 @@ int	open_hd(t_cmd *cmd, int i)
 	return (tmp_fd);
 }
 
+/*
+ * Function: invalid_fd
+ * ---------------------
+ * Handles invalid file descriptors.
+ *
+ * file_name: The name of the file.
+ * here_doc: Flag indicating here-document mode.
+ *
+ * Returns: -1.
+ */
 int	invalid_fd(char *file_name, int here_doc)
 {
 	if (here_doc == 2 && g_here_doc_fd != -1)
@@ -49,6 +69,15 @@ int	invalid_fd(char *file_name, int here_doc)
 	return (-1);
 }
 
+/*
+ * Function: handle_redir_input
+ * -----------------------------
+ * Handles input redirection for a command.
+ *
+ * cmd: The command structure.
+ *
+ * Returns: The file descriptor for input redirection.
+ */
 int	handle_redir_input(t_cmd *cmd)
 {
 	int	nb_redir;
@@ -76,6 +105,15 @@ int	handle_redir_input(t_cmd *cmd)
 	return (final_fd);
 }
 
+/*
+ * Function: handle_redir_output
+ * ------------------------------
+ * Handles output redirection for a command.
+ *
+ * cmd: The command structure.
+ *
+ * Returns: The file descriptor for output redirection.
+ */
 int	handle_redir_output(t_cmd *cmd)
 {
 	int	nb_redir;
@@ -105,7 +143,15 @@ int	handle_redir_output(t_cmd *cmd)
 	return (final_fd);
 }
 
-//changes : if a redir fail we continue and create all files 
+/*
+ * Function: handle_redir
+ * -----------------------
+ * Handles input and output redirection for a command.
+ *
+ * cmd: The command structure.
+ *
+ * Returns: True if redirection is successful, otherwise false.
+ */
 bool	handle_redir(t_cmd *cmd)
 {
 	cmd->input_fd = handle_redir_input(cmd);

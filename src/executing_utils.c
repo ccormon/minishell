@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 11:05:57 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 16:22:34 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 17:03:48 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ void	exit_fork(t_arg *arg, int exit_code)
  */
 void	exec_errors(t_arg *arg, t_cmd *cmd)
 {
+	if (cmd->input_fd == -1 || cmd->output_fd == -1)
+		exit_fork(arg, EXIT_FAILURE);
 	if (!cmd->argv[0] && (cmd->input_redir[0] || cmd->output_redir[0]))
 		exit_fork(arg, EXIT_SUCCESS);
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
@@ -150,7 +152,7 @@ void	exec_errors(t_arg *arg, t_cmd *cmd)
 	}
 	if (cmd->argv[0])
 	{
-		ft_putstr_fd(" : Is a directory\n", STDERR_FILENO);
+		ft_putstr_fd(" : is a directory\n", STDERR_FILENO);
 		exit_fork(arg, EXEC_CMD_KO);
 	}
 }

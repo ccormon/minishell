@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 15:15:54 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 17:05:46 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,8 @@ int	handle_redir_output(t_cmd *cmd)
  *
  * Returns: True if redirection is successful, otherwise false.
  */
-bool	handle_redir(t_cmd *cmd)
+void	handle_redir(t_cmd *cmd)
 {
 	cmd->input_fd = handle_redir_input(cmd);
 	cmd->output_fd = handle_redir_output(cmd);
-	if (cmd->input_fd == -1 || cmd->output_fd == -1)
-		return (false);
-	return (true);
 }

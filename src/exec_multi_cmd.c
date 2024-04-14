@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 16:32:58 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 17:06:23 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	exec_cmd(t_arg *arg, t_cmd *cmd)
 	cmd->pid_child = fork();
 	if (cmd->pid_child == 0)
 	{
+		if (cmd->input_fd == -1 || cmd->output_fd == -1)
+			exec_errors(arg, cmd);
 		dup2(arg->cmd_read_fd, STDIN_FILENO);
 		close(arg->cmd_read_fd);
 		dup2(arg->pipe_fd[1], STDOUT_FILENO);
@@ -96,12 +98,8 @@ void	wait_childs(t_arg *arg, t_cmd *cmd, int nb_cmd)
 	i = 0;
 	while (i < nb_cmd)
 	{
-		if (cmd->input_fd != -1 && cmd->output_fd != -1)
-		{
-			waitpid(cmd->pid_child, &cmd->status, 0);
-			if (cmd->cmd_path && access(cmd->cmd_path, X_OK) == 0)
-				arg->exit_code = WEXITSTATUS(cmd->status);
-		}
+		waitpid(cmd->pid_child, &cmd->status, 0);
+		arg->exit_code = WEXITSTATUS(cmd->status);
 		cmd = cmd->next;
 		i++;
 	}
@@ -117,26 +115,20 @@ void	wait_childs(t_arg *arg, t_cmd *cmd, int nb_cmd)
  */
 void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 {
-	bool	redir_ok;
 	int		nb_cmd;
 
 	nb_cmd = 0;
 	while (cmd && g_here_doc_fd != -1)
 	{
-		redir_ok = handle_redir(cmd);
+		handle_redir(cmd);
 		ft_pipe(arg, cmd);
-		if (redir_ok)
+		if (!ft_isbuiltin(cmd))
 		{
-			if (!ft_isbuiltin(cmd))
-			{
-				arg->paths = found_path(arg->envp);
-				cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
-				free_tab(arg->paths);
-			}
-			exec_cmd(arg, cmd);
+			arg->paths = found_path(arg->envp);
+			cmd->cmd_path = ft_which(arg->paths, cmd->argv[0]);
+			free_tab(arg->paths);
 		}
-		else
-			arg->exit_code = GENERAL_ERR;
+		exec_cmd(arg, cmd);
 		cmd = cmd->next;
 		nb_cmd++;
 	}

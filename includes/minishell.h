@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 16:13:43 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 17:05:50 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void		exit_fork(t_arg *arg, int exit_code);
 int			open_hd(t_cmd *cmd, int i);
 int			handle_redir_input(t_cmd *cmd);
 int			handle_redir_output(t_cmd *cmd);
-bool		handle_redir(t_cmd *cmd);
+void		handle_redir(t_cmd *cmd);
 
 //(HANDLE_REDIR_UTILS)
 int			nb_redir_input(t_cmd *cmd);

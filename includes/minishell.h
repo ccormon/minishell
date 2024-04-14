@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 17:05:50 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/14 17:16:31 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void		executing(t_arg *arg);
 //(EXECUTING_UTILS)
 char		*ft_strjoin_path(char *path, char *cmd);
 char		*ft_which(char **paths, char *cmd);
-int		nb_cmd(t_cmd *cmd);
+int			nb_cmd(t_cmd *cmd);
 void		exec_errors(t_arg *arg, t_cmd *cmd);
 bool		found_path_line(char *str);
 char		**found_path(char **envp);

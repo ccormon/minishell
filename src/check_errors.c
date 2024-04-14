@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 18:00:43 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 12:32:13 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 18:03:05 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
  *
  * returns: false
  */
-static bool	print_error(t_arg *arg, char *str)
+static bool	print_error(t_arg *arg, char *str, int exit_code)
 {
 	ft_putstr_fd(str, STDERR_FILENO);
-	arg->exit_code = GENERAL_ERR;
+	arg->exit_code = exit_code;
 	return (false);
 }
 
@@ -121,19 +121,19 @@ bool	check_errors(t_arg *arg, char *str)
 	while (ft_isspace(*str))
 		str++;
 	if (*str == '|')
-		return (print_error(arg, "Pipe error\n"));
+		return (print_error(arg, "Pipe error\n", 2));
 	while (*str)
 	{
 		if (state == 0 && !check_pipe_errors(str))
-			return (print_error(arg, "Pipe error\n"));
+			return (print_error(arg, "Pipe error\n", 2));
 		else if (state == 0 && !check_redir_errors(str))
-			return (print_error(arg, "Redirection error\n"));
+			return (print_error(arg, "Redirection error\n", 2));
 		else if (state == 0 && ft_ismetachar(*str))
-			return (print_error(arg, "Metacharacter not handled\n"));
+			return (print_error(arg, "Metacharacter not handled\n", 1));
 		in_quotes(*str, &state);
 		str++;
 	}
 	if (state != 0)
-		return (print_error(arg, "Quotes must be closed\n"));
+		return (print_error(arg, "Quotes must be closed\n", 1));
 	return (true);
 }

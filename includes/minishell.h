@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 17:16:31 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/14 17:57:15 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ bool		check_errors(t_arg *arg, char *str);
 void		in_quotes(char c, int *state);
 
 //REPLACE ENVIRONEMENT VARIABLES (HANDLE_VAR)
-int		replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i);
+int			replace_env_var(t_arg *arg, t_tmp_list **list, int state, int i);
 
 //CREATE COMMAND LINKED LIST (INIT_LIST)
 void		init_cmd_list(t_arg *arg, t_cmd **cmd, t_tmp_list *tmp);

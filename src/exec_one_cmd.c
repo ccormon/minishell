@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_one_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:25:31 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 17:06:12 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/15 11:07:12 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	handle_one_cmd(t_arg *arg)
 	handle_redir(arg->cmd_list);
 	if (arg->cmd_list->input_fd == -1 || arg->cmd_list->output_fd == -1)
 	{
-		if (g_here_doc_fd == -1)
+		if (g_signal)
 			return ;
 		arg->exit_code = GENERAL_ERR;
 		return ;

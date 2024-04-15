@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 17:57:15 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 10:48:32 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef enum e_token
 
 /*************** GLOBAL ****************/
 
-extern int					g_here_doc_fd;
 extern int					g_signal;
 
 /*************** STRUCT ****************/

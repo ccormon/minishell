@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:28:54 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 18:34:15 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/15 11:00:01 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	open_hd(t_cmd *cmd, int i)
 	read_input(tmp_fd, lim_lr);
 	close(tmp_fd);
 	free(lim_lr);
-	if (g_here_doc_fd == -1)
+	if (g_signal)
 	{
 		free(tmp_file_name);
 		return (-1);
@@ -62,9 +62,9 @@ int	open_hd(t_cmd *cmd, int i)
  */
 int	invalid_fd(char *file_name, int here_doc)
 {
-	if (here_doc == 2 && g_here_doc_fd != -1)
+	if (here_doc == 2 && !g_signal)
 		perror("here_doc");
-	else if (g_here_doc_fd != -1)
+	else if (!g_signal)
 		perror(file_name);
 	return (-1);
 }

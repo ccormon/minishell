@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:42:45 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/13 14:54:51 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:07:19 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,20 @@ void	read_input(int tmp_fd, char *lim_lr)
 {
 	char	*buffer;
 
-	g_here_doc_fd = dup(STDIN_FILENO);
 	ft_putstr_fd("> ", STDOUT_FILENO);
 	change_signal(2);
-	buffer = get_next_line(g_here_doc_fd);
+	buffer = get_next_line(STDIN_FILENO);
 	while (buffer && !ft_strcmp(buffer, lim_lr))
 	{
 		ft_putstr_fd(buffer, tmp_fd);
 		free(buffer);
 		ft_putstr_fd("> ", STDOUT_FILENO);
-		buffer = get_next_line(g_here_doc_fd);
+		buffer = get_next_line(STDIN_FILENO);
 	}
 	if (buffer)
 		free(buffer);
-	else if (g_here_doc_fd != -1)
+	else if (!g_signal)
 		ft_putstr_fd("warning : here-document delimited by end-of-file\n",
 			STDERR_FILENO);
 	change_signal(0);
-	close(g_here_doc_fd);
 }

@@ -6,13 +6,12 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:00:08 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/13 14:56:33 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:05:15 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	g_here_doc_fd;
 int	g_signal;
 
 /*
@@ -31,7 +30,7 @@ void	handle_signal_rl(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-		g_signal = 1;
+		g_signal = SIGINT;
 	}
 }
 
@@ -49,7 +48,7 @@ void	handle_signal_cmd(int sig)
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
-		g_signal = 1;
+		g_signal = SIGINT;
 	}
 	if (sig == SIGQUIT)
 		ft_putstr_fd("\b\b  \b\b", STDOUT_FILENO);
@@ -66,10 +65,8 @@ void	handle_signal_hd(int sig)
 {
 	if (sig == SIGINT)
 	{
-		close(g_here_doc_fd);
-		g_here_doc_fd = -1;
 		write(1, "\n", 1);
-		g_signal = 1;
+		g_signal = SIGINT;
 	}
 	if (sig == SIGQUIT)
 		ft_putstr_fd("\b\b  \b\b", STDOUT_FILENO);
@@ -100,19 +97,29 @@ void	sig_exit_code(t_arg *arg)
  */
 void	change_signal(int param)
 {
+	struct sigaction	sig_int;
+	struct sigaction	sig_quit;
+
+	ft_bzero(&sig_int, sizeof(sig_int));
+	ft_bzero(&sig_quit, sizeof(sig_quit));
+	sig_int.sa_flags = SA_RESTART;
+	sig_quit.sa_flags = SA_RESTART;
 	if (param == 0)
 	{
-		signal(SIGINT, &handle_signal_rl);
-		signal(SIGQUIT, SIG_IGN);
+		sig_int.sa_handler = &handle_signal_rl;
+		sig_quit.sa_handler = SIG_IGN;
 	}
 	else if (param == 1)
 	{
-		signal(SIGINT, &handle_signal_cmd);
-		signal(SIGQUIT, &handle_signal_cmd);
+		sig_int.sa_handler = &handle_signal_cmd;
+		sig_quit.sa_handler = &handle_signal_cmd;
 	}
 	else
 	{
-		signal(SIGINT, &handle_signal_hd);
-		signal(SIGQUIT, &handle_signal_hd);
+		sig_int.sa_handler = &handle_signal_hd;
+		sig_quit.sa_handler = &handle_signal_hd;
+		sig_int.sa_flags = 0;
 	}
+	sigaction(SIGINT, &sig_int, NULL);
+	sigaction(SIGQUIT, &sig_quit, NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 15:44:32 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 17:06:23 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/15 11:06:39 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,6 @@ char	**found_path(char **envp)
 		return (NULL);
 	return (ft_split(*envp + 5, ':'));
 }
-
-// /*
-//  * Function: exec_builtins
-//  * -----------------------
-//  * Executes the built-in commands.
-//  *
-//  * arg: Pointer to the argument structure.
-//  * cmd: Pointer to the command structure.
-//  */
-// void	exec_builtins(t_arg *arg, t_cmd *cmd)
-// {
-// 	if (cmd->output_fd == STDOUT_FILENO)
-// 		handle_builtins(arg, cmd, arg->pipe_fd[1]);
-// 	else
-// 	{
-// 		handle_builtins(arg, cmd, cmd->output_fd);
-// 		close(cmd->output_fd);
-// 	}
-// 	dprintf(2, "hello there ! %s\n", cmd->argv[0]);
-// }
 
 /*
  * Function: exec_cmd
@@ -118,7 +98,7 @@ void	handle_multi_cmd(t_arg *arg, t_cmd *cmd)
 	int		nb_cmd;
 
 	nb_cmd = 0;
-	while (cmd && g_here_doc_fd != -1)
+	while (cmd && !g_signal)
 	{
 		handle_redir(cmd);
 		ft_pipe(arg, cmd);

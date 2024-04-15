@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fetch_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:35:39 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/14 16:11:17 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/15 11:01:10 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
- * Function: init_paths
- * ---------------------
- * Initializes the paths for executable files by extracting the PATH environment
- * variable.
- *
- * arg:   Pointer to a structure containing command argv and settings.
- * envp:  Array of strings containing the environment variables.
- */
-// static void	init_paths(t_arg *arg, char **envp)
-// {
-// 	char	*path_line;
-
-// 	path_line = find_str(envp, "PATH=", 5);
-// 	if (!path_line)
-// 	{
-// 		arg->paths = NULL;
-// 		return ;
-// 	}
-// 	arg->paths = ft_split(path_line, ':');
-// }
 
 /*
  * Function: ft_tabdup
@@ -82,7 +60,6 @@ static void	init_arg(t_arg *arg, char **envp)
 	arg->pwd = getcwd(NULL, 0);
 	arg->prompt = get_prompt(arg->envp);
 	arg->paths = NULL;
-	// init_paths(arg, arg->envp);
 	if (!find_str(envp, "PWD=", 4))
 		rewrite_evar(arg, "PWD=", getcwd(NULL, 0));
 }
@@ -106,7 +83,6 @@ int	fetch_line(char **envp)
 	{
 		arg.lexing = NULL;
 		arg.nb_cmd = 0;
-		g_here_doc_fd = 0;
 		change_signal(0);
 		arg.whole_line = readline(arg.prompt);
 		add_history(arg.whole_line);

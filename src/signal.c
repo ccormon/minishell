@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 12:00:08 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/15 11:05:15 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:48:38 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	handle_signal_hd(int sig)
  */
 void	sig_exit_code(t_arg *arg)
 {
-	if (g_signal == 1)
+	if (g_signal)
 	{
 		arg->exit_code = CTRL_C;
 		g_signal = 0;

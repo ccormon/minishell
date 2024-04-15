@@ -6,7 +6,7 @@
 /*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 12:58:21 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/14 18:05:51 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 11:46:57 by sdemaude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ bool	get_exit_code(t_arg *arg, char **argv)
  */
 void	builtin_exit(t_arg *arg, char **argv, bool builtin)
 {
-	if (arg->nb_cmd == 1)
+	if (arg->nb_cmd == 1 || builtin == false)
 		write(1, "exit\n", 5);
 	if (builtin)
 	{

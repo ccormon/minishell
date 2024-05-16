@@ -6,7 +6,7 @@
 /*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:37:40 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/14 14:47:18 by ccormon          ###   ########.fr       */
+/*   Updated: 2024/04/15 14:02:40 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	ft_pipe_last_cmd(t_arg *arg, t_cmd *cmd)
 {
 	close(arg->cmd_read_fd);
 	if (cmd->input_fd != STDIN_FILENO)
+	{
+		close(arg->pipe_fd[0]);
 		arg->cmd_read_fd = cmd->input_fd;
+	}
 	else
 		arg->cmd_read_fd = arg->pipe_fd[0];
 	close(arg->pipe_fd[1]);
@@ -69,7 +72,10 @@ void	ft_pipe_middle_cmd(t_arg *arg, t_cmd *cmd)
 {
 	close(arg->cmd_read_fd);
 	if (cmd->input_fd != STDIN_FILENO)
+	{
+		close(arg->pipe_fd[0]);
 		arg->cmd_read_fd = cmd->input_fd;
+	}
 	else
 		arg->cmd_read_fd = arg->pipe_fd[0];
 	close(arg->pipe_fd[1]);

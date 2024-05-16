@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:21:39 by ccormon           #+#    #+#             */
-/*   Updated: 2024/04/15 10:48:32 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:50:33 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ void		builtin_cd(t_arg *arg, char **argv);
 void		builtin_env(t_arg *arg, char **argv, int fd);
 
 //(BUILTIN_EXPORT)
+char		**find_var_export(char **envp, char *to_find);
 void		rewrite_evar(t_arg *arg, char *name, char *content);
 void		builtin_export(t_arg *arg, char **argv, int fd);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 10:04:59 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/08 11:49:43 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:50:37 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Function: create_new_var
  * -------------------------
- * Creates a new environment variable with the given name and content and adds 
+ * Creates a new environment variable with the given name and content and adds
  * it to the environment.
  *
  * arg:     Pointer to a structure containing command arguments and settings.
@@ -85,7 +85,7 @@ void	rewrite_evar(t_arg *arg, char *name, char *content)
 {
 	char	**var;
 
-	var = find_var(arg->envp, name);
+	var = find_var_export(arg->envp, name);
 	if (!var)
 		create_new_var(arg, name, content);
 	else

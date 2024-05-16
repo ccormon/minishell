@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 10:51:28 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/14 19:24:52 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:50:19 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Function: find_var
+ * Function: find_var_export
  * -------------------
  * Finds the environment variable with the specified name.
  *
@@ -22,7 +22,7 @@
  *
  * returns: Pointer to the environment variable if found; otherwise, NULL.
  */
-char	**find_var(char **envp, char *to_find)
+char	**find_var_export(char **envp, char *to_find)
 {
 	int	i;
 	int	j;

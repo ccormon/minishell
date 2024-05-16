@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sdemaude <sdemaude@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: ccormon <ccormon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:50:20 by sdemaude          #+#    #+#             */
-/*   Updated: 2024/04/15 12:09:23 by sdemaude         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:50:25 by ccormon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	**find_var_unset(char **envp, char *to_find)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (*envp)
+	{
+		j = 0;
+		while ((*envp)[j] == to_find[j])
+		{
+			j++;
+			if (!to_find[j] && (*envp)[j] == '=')
+				return (envp);
+		}
+		envp++;
+	}
+	return (NULL);
+}
 
 /*
  * Function: shift_tab
@@ -50,10 +70,8 @@ static void	exec_unset(t_arg *arg, char *str)
 
 	i = 0;
 	name = NULL;
-	name = find_var(arg->envp, str);
+	name = find_var_unset(arg->envp, str);
 	if (!name)
-		return ;
-	if (*(*name + ft_strlen(str)) != '=')
 		return ;
 	shift_tab(name);
 }
